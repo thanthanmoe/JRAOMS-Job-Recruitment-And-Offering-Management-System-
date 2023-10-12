@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head>
+    <!-- Favicons -->
+    <link rel="shortcut icon" type="icon/image" href="https://acedatasystems.com/wp-content/themes/acedata/shared/images/fav/favicon.ico">
+
+    <div th:replace="side-bar :: head"></div>
+  <div th:replace="side-bar :: popupCdn"></div>
+   <link rel="stylesheet" href="/assets/css/confirmBox.css">
+   <script src="/assets/js/adminVacancyDetails.js"></script>
+   <style>
+   #detailsBox {
+   background: linear-gradient(to right, #E2E2E2, #C9D6FF);
+   }
+   .details,.details th,.details td {
+   background:transparent;
+   }
+   .status {
+    display:inline;
+    color:white;
+    }
+    .activeV {
+    background:rgb(5, 204, 52);
+    }
+    .closeV {
+    background:firebrick;
+    }
+    
+   </style>
+    
+</head>
+<body>
+<div th:replace="side-bar :: header"></div>
+<div th:replace="side-bar :: sidebar"></div>
+
+
+ <main id="main" class="main">
+
+
+    <div class="pagetitle">
+      <h1>Details Job</h1>
+      <nav>
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item">Home</li>
+          <li class="breadcrumb-item active">Details Job</li>
+        </ol>
+      </nav>
+    </div><!-- End Page Title -->
+
+    <section class="section dashboard">
+      
+
+        <div class="row gap-2" >
+            <div class="col-lg-10 m-auto shadow p-3 mb-5 bg-white rounded jobPost" th:object="${vacancy}" id="detailsBox">
+             
+             <h4 class="d-inline text-primary" th:text="*{position}" ></h4>
+             <h5 class="d-inline float-end">[[*{requirePosition}]] Post<span th:if="*{requirePosition} > 1">s</span></h5>
+             
+             <div th:class="${vacancy.status} == active ? 'status rounded-4 p-1 ps-2 pe-2 activeV' : 'status rounded-4 p-1 ps-2 pe-2 closeV'">
+             <span th:if="${vacancy.status} == Expired">Expired</span><span th:if="${vacancy.status} == close">Closed</span>
+             <span th:if="${vacancy.status} == active">Active</span>
+             </div>
+             
+             <h5 class="text-danger">[[*{department.name}]]</h5>
+            <h5 class="">Job Description</h5>
+            <p>
+            [[*{description}]]
+            </p>
+    
+            <h5 class="">Job Responsibilities</h5>
+            <div th:utext="*{responsibilities}"></div>
+    
+             <h5 class="">Requirements</h5>
+            <div th:utext="*{requirements}"></div>
+               
+             <h5 class="">Preferences</h5>
+             <div th:utext="*{preferences}"></div>
+            
+            <table class="table details">
+             <tr>
+                 <td >Working Hours</td>
+                 <td>[[*{workingHours}]]</td>
+             </tr>
+             <tr>
+               <td>Working Days</td>
+               <td>[[*{workingDay}]]</td>
+              </tr>
+              <tr>
+                <td>Salary</td>
+                <td>[[*{salary}]]</td>
+               </tr>
+              <tr>
+               <td>Job Location</td>
+               <td>[[*{department.company.location}]]</td>
+              </tr>
+              <tr>
+                <td>Job Type</td>
+                <td>[[*{jobType}]]</td>
+               </tr>
+            </table>
+            <br>
+            <h5 class= "" >About Company</h5>
+            <p> 
+            [[*{department.company.about}]]
+            </p>
+            <h5 class="d-inline ">Website link:</h5>
+            <a th:href="'https://' + *{department.company.link}" target="_blank" class="">[[*{department.company.link}]]</a>
+             <br>
+             <br>
+           <div class="row">
+            <div class="col-3">
+                    <a sec:authorize="hasAnyAuthority('ADMIN','SENIOR','JUNIOR')" th:if="*{status} == active" class="btn rounded-4 btn-primary ps-4 pe-4" th:href="@{/vacancy/edit/{id}(id=${vacancy.id})}" title="edit"><i class="bi bi-pencil-fill"></i></a>
+                    <button sec:authorize="hasAnyAuthority('ADMIN','SENIOR','JUNIOR')" th:if="*{status} == active" class="btn rounded-4 btn-danger ps-4 pe-4" data-bs-toggle="modal" th:data-bs-target="'#modal' + ${vacancy.id}" title="close"><i class="bi bi-file-earmark-x"></i></button>
+            </div>
+            <div class="col-7 d-grid">
+            <span class="bg rounded-5 bg-light p-0 text-center"><i class="fa-solid fa-calendar-days"></i> Last Update: [[${history.date}]] <span class="">[[${history.user.name}]]</span><span class=""> [[${history.action}]]</span>  </span>
+            <a sec:authorize="hasAnyAuthority('ADMIN','SENIOR','JUNIOR')" class="btn rounded-5 btn-primary text-light p-0"  th:href="@{/vacancy/history/{id}(id=${vacancy.id})}">View History</a>
+            </div>
+            <div class="col-2  d-grid">
+              <span><i class="fa-regular fa-calendar"></i> Post Date</span> 
+            <span class="float-end">[[*{startDate}]]</span>
+              
+           </div>
+          
+       </div>
+           
+</div>
+
+        <!--end of job offer form -->
+        <div id="myDiv" style="display: none;" th:text="${session.vacancyEditMessage}"></div>
+        <!--modal box start-->
+			<div class="modal fade" th:id="'modal' + ${vacancy.id}" tabindex="-1">
+				<div class="modal-dialog modal-dialog-centered">
+					<div class="confirm modal-content">
+						<h1>Confirm your action</h1>
+						<p>
+							Are you really  sure that
+							you want to <strong>close</strong> this Vacancy?
+						</p>
+						<button data-bs-dismiss="modal">Cancel</button>
+						<a th:href="@{/vacancy/close/{id}(id=${vacancy.id})}" class="text-decoration-none">Confirm</a>
+					</div>
+				</div>
+			</div>
+			<!-- End Modal-->
+	 <div class="d-flex justify-content-center">
+        <div>
+          <button th:if="${vacancy.status} == active" class="btn border-0 " onclick="window.location.href='/activevacancies'">
+            <i class="fa-solid fa-circle-chevron-left fa-3x"></i>  
+          </button>
+          <button th:if="${vacancy.status} != active" class="btn border-0 " onclick="window.location.href='/expiredvacancies'">
+            <i class="fa-solid fa-circle-chevron-left fa-3x"></i>  
+          </button>
+        </div>
+      </div>
+  
+    </section>
+
+  </main><!-- End #main -->
+
+<div th:replace="side-bar :: footer"></div>
+<div th:replace="side-bar :: scripts"></div>
+</body>
+</html>

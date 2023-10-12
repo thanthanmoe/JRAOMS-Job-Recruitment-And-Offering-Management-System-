@@ -1,0 +1,155 @@
+.modal-content {
+    background-color: #E5E4E2;
+}
+.display th{
+    background-color:#D5D6EA;
+
+}
+.btn-custom-size {
+    width: 120px !important; /* Set the desired width */
+    height: 34px !important; /* Set the desired height */
+    box-shadow: none !important;
+    padding-right: 10px !important;
+}
+.btn-view-size {
+    width: 100px !important; /* Set the desired width */
+    height: 34px !important; /* Set the desired height */
+    box-shadow: none !important;
+}
+/* Custom CSS for active button */
+.btn-arrow-right.active {
+    border: 1px solid black !important; /* Add a border to the active button with the same color as the background */
+    background: #a395f3 !important;
+}
+
+.modify{
+    background: #33a2a2 !important;
+}
+
+.narrowColumn {
+    width: 110px !important;
+    max-width: 140px !important;
+    min-width: 110px !important;
+    overflow: hidden;
+    word-wrap: break-word; /* Allow words to break and wrap within the container */
+}
+.forId {
+    width: 30px !important;
+    max-width: 30px !important;
+    min-width: 30px !important;
+    overflow: hidden;
+    word-wrap: break-word; /* Allow words to break and wrap within the container */
+}
+.smallColumn {
+    width: 120px !important;
+    max-width: 150px !important;
+    min-width: 120px !important;
+    overflow: hidden;
+    word-wrap: break-word; /* Allow words to break and wrap within the container */
+}
+.experience {
+    width: 90px !important;
+    max-width: 90px !important;
+    min-width: 90px !important;
+    overflow: hidden;
+    word-wrap: break-word; /* Allow words to break and wrap within the container */
+}
+.select {
+    width: 120px !important;
+    max-width: 120px !important;
+    min-width: 120px !important;
+    overflow: hidden;
+    word-wrap: break-word; /* Allow words to break and wrap within the container */
+}
+.confirm > form > button:hover {
+    color:#0275d8;
+}
+
+/* for input type file */
+.input-file-container {
+    position:relative;
+    margin-right:60%;
+    width:20px;
+
+}
+.js .input-file-trigger {
+    display: block;
+    background: #39d2b300;
+    color: #000000;
+    font-size: 1em;
+    transition: all .4s;
+    cursor: pointer;
+    border-radius: 10px;
+}
+.js .input-file {
+    position: absolute;
+    top: 0; left: 0;
+    width: 225px;
+    opacity: 0;
+    cursor: pointer;
+}
+.js .input-file:hover + .input-file-trigger,
+.js .input-file:focus + .input-file-trigger,
+.js .input-file-trigger:hover,
+.js .input-file-trigger:focus {
+    background: #34495e00;
+    color: #39d2b320;
+}
+
+.file-return {
+    margin: 0;
+}
+
+.file-return {
+    font-style: italic;
+    font-size: .9em;
+    font-weight: bold;
+    height:15px;
+}
+.js .file-return:not(:empty):before {
+    content: "Selected file: ";
+    font-style: normal;
+    font-weight: normal;
+}
+#fileLabel {
+    color:black;
+}
+/* Adjust the height of the editor to your needs */
+.summernote-container .note-editable {
+    height: 300px; /* Set the desired height */
+    /* Add other styling as needed */
+}
+
+/* Optional: Style the editor container */
+.summernote-container {
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 10px;
+    /* Add other styling as needed */
+}
+input:focus, textarea:focus{
+    outline: none;
+}
+#cc,#subject {
+    width:100%;
+}
+.modal-footer {
+    display:flex;
+    justify-content: space-between;
+}
+#toEmail {
+    border: 2px solid #007bff00; /* Primary color for top, left, and right borders */
+    border-bottom-color: #cfd8dc;
+}
+.candidate-badge {
+	position:absolute;
+	padding:0px;
+	z-index: 2;
+	left:80%;
+}
+.btn-arrow-right {
+	position:absolute;
+}
+.noti-badge {
+    position:relative;
+}

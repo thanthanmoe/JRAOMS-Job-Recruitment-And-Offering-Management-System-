@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head>
+    <!-- Favicons -->
+    <link rel="shortcut icon" type="icon/image" href="https://acedatasystems.com/wp-content/themes/acedata/shared/images/fav/favicon.ico">
+
+    <div th:replace="side-bar :: head"></div>
+    <div th:replace="side-bar :: custom1"></div>
+    <style>
+    .status {
+    position: absolute;
+    right:-40px;
+    transform:rotate(45deg);
+    width:20%;
+    text-align:center;
+    background:rgb(5, 204, 52);
+    color:white;
+    }
+    </style>
+</head>
+
+<body>
+<div th:replace="side-bar :: header"></div>
+<div th:replace="side-bar :: sidebar"></div>
+
+
+<main id="main" class="main">
+
+    <div class="pagetitle">
+        <h1>Dashboard</h1>
+        <nav>
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item">Home</li>
+                <li class="breadcrumb-item active">Active Jobs</li>
+            </ol>
+        </nav>
+    </div><!-- End Page Title -->
+
+    <section class="section dashboard">
+        <div class="row">
+            <div class="alert alert-primary text-center" id="empty" role="alert" th:if="${vacancies.size() < 1}">
+                NO VACANCY FOUND
+            </div>
+            <div class="listbody99">
+
+                <!-- ======= Start of the cards list ======= -->
+                <script>
+                
+                    const { ScrollObserver, valueAtPercentage } = aat
+
+                    const cardsContainer = document.querySelector('.cards')
+                    const cards = document.querySelectorAll('.card')
+                    cardsContainer.style.setProperty('--cards-count', cards.length)
+                    cardsContainer.style.setProperty(
+                        '--card-height',
+                        `${cards[0].clientHeight}px`
+                    )
+                    Array.from(cards).forEach((card, index) => {
+                        const offsetTop = 20 + index * 20
+                        card.style.paddingTop = `${offsetTop}px`
+                        if (index === cards.length - 1) {
+                            return
+                        }
+                        const toScale = 1 - (cards.length - 1 - index) * 0.1
+                        const nextCard = cards[index + 1]
+                        const cardInner = card.querySelector('.card__inner')
+                        ScrollObserver.Element(nextCard, {
+                            offsetTop,
+                            offsetBottom: window.innerHeight - card.clientHeight
+                        }).onScroll(({ percentageY }) => {
+                            cardInner.style.scale = valueAtPercentage({
+                                from: 1,
+                                to: toScale,
+                                percentage: percentageY
+                            })
+                            cardInner.style.filter = `brightness(${valueAtPercentage({
+                                from: 1,
+                                to: 0.6,
+                                percentage: percentageY
+                            })})`
+                        })
+                    })
+                    
+                    
+                </script>
+
+                <div class="space space--small"></div>
+
+                <div class="lcards">
+                    <div class="lcard" th:each="vacancy, index : ${vacancies}" data-index="${index.index}">
+                        <div class="card__inner">
+                            <div class="card__content" style="background: hsla(186, 33%, 94%, 1);
+
+background: linear-gradient(90deg, hsla(186, 33%, 94%, 1) 0%, hsla(216, 41%, 79%, 1) 100%);
+
+background: -moz-linear-gradient(90deg, hsla(186, 33%, 94%, 1) 0%, hsla(216, 41%, 79%, 1) 100%);
+
+background: -webkit-linear-gradient(90deg, hsla(186, 33%, 94%, 1) 0%, hsla(216, 41%, 79%, 1) 100%);
+
+filter: progid: DXImageTransform.Microsoft.gradient( startColorstr="#ebf4f5", endColorstr="#b5c6e0", GradientType=1 );">
+
+                            <div class="status rounded-3" th:if="${vacancy.status} == active">Active</div>
+                            <table>
+                                    <tr>
+                                        <th><a th:href="@{/vacancydetails/{vacancyId}(vacancyId=${vacancy.id})}">[[${vacancy.position}]]</a></th>
+                                    </tr>
+                                    <tr>
+                                        <td> </td>
+                                        <td> </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Posts :</td>
+                                        <td th:text="${vacancy.requirePosition}"></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Salary:</td>
+                                        <td th:text="${vacancy.salary}"></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Job Type:</td>
+                                        <td th:text="${vacancy.jobType}"></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Start Date:</td>
+                                        <td th:text="${vacancy.startDate}"></td>
+                                    </tr>
+                                    <tr>
+                                        <td>End Date:</td>
+                                        <td th:text="${vacancy.endDate}"></td>
+                                    </tr>
+                                    <tr>
+                                        <td>No of Applied Candidates:</td>
+                                        <td th:text="${vacancy.applyerAmount}"></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Days Left:</td>
+                                        <td th:text="${vacancy.daysLeft}"></td>
+                                    </tr>
+                                    <tr>
+                                        <td></td>
+                                        <td sec:authorize="hasAnyAuthority('ADMIN','SENIOR')">
+                                            <a th:href="@{/manage/status/{id}(id=${vacancy.id})}" id="viemore"  class="btn btn-primary rounded-4">View More</a>
+                                        </td>
+                                        <td sec:authorize="hasAnyAuthority('INTERVIEWER')">
+                                            <a th:href="@{/interview/status/{id}(id=${vacancy.id})}" id="viewmore"  class="btn btn-primary rounded-4">View More</a>
+                                        </td>
+                                    </tr>
+                                </table>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="space"></div>
+
+
+                <!-- ======= End of the cards list ======= -->
+            </div>
+        </div>
+    </section>
+
+</main><!-- End #main -->
+
+<div th:replace="side-bar :: footer"></div>
+<div th:replace="side-bar :: scripts"></div>
+</body>
+</html>

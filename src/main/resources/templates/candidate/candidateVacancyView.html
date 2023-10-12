@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <!-- Favicons -->
+    <link rel="shortcut icon" type="icon/image" href="https://acedatasystems.com/wp-content/themes/acedata/shared/images/fav/favicon.ico">
+
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+
+    <title>JRAOMS</title>
+    <meta content="" name="description">
+    <meta content="" name="keywords">
+
+    <!-- Favicons -->
+    <link href="Logo.png" rel="icon">
+    <link href="/assets/img/apple-touch-icon.png" rel="apple-touch-icon">
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.gstatic.com" rel="preconnect">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
+
+    <!-- Vendor CSS Files -->
+    <link href="/assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+    <link href="/assets/vendor/boxicons/css/boxicons.min.css" rel="stylesheet">
+    <link href="/assets/vendor/remixicon/remixicon.css" rel="stylesheet">
+
+
+    <!-- Template Main CSS File -->
+    <link href="/assets/css/style.css" rel="stylesheet">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/izitoast/1.4.0/css/iziToast.min.css" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.7.0.min.js"
+            integrity="sha256-2Pmvv0kuTBOenSvLm6bvfBSSHrUJ+3A7x6P5Ebd07/g=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/izitoast/1.4.0/js/iziToast.min.js"></script>
+    <script th:src="@{/assets/js/candidateVacancyView.js}"></script>
+
+    <style>
+        .contact-container {
+            max-width: 90%;
+            margin: auto;
+            margin-top: 50px;
+        }
+         
+    </style>
+</head>
+
+<body class="">
+
+<!--WebSocket with sockJs and stomp-->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.6.1/sockjs.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.js"></script>
+<script>
+    let socket = new SockJS('/ws'); // WebSocket endpoint URL
+    let stompClient = Stomp.over(socket);
+
+    stompClient.connect({}, function(frame) {
+        console.log('Connected to WebSocket: ' + frame);
+
+        // Subscribe to a topic
+        stompClient.subscribe('/all/messages', function(message) {
+            let body = JSON.parse(message.body);
+            console.log('Received message:', body.message);
+
+        });
+    });
+
+    function sendMessage() {
+        let message = {
+            message: 'Hello'
+        };
+        stompClient.send('/app/application', {}, JSON.stringify(message));
+    }
+
+    async function saveNotification(data) {
+
+        console.log("vacancyId : "+data);
+
+        const notificationDto = {
+            vacancyId : data
+        }
+
+        const url = '/jobs/saveNotification';
+        const requestOptions = {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(notificationDto)
+        };
+
+        try {
+            const response = await fetch(url, requestOptions);
+
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }else {
+                console.log("save notification");
+                sendMessage();
+            }
+        } catch (error) {
+            console.error('Error saving notification:', error);
+            // Handle error here
+        }
+    }
+</script>
+
+<!-- ======= Header ======= -->
+<header id="header" class="header fixed-top d-flex align-items-center">
+
+    <div class="d-flex align-items-center justify-content-between">
+        <a href="/" class="logo d-flex align-items-center"> <img
+                src="/assets/img/Logo.jpg" alt=""> <span
+                class="d-none d-lg-block">Ace Data Systems</span>
+        </a>
+        <i class="bi bi-list toggle-sidebar-btn"></i>
+    </div>
+    <!-- End Logo -->
+
+    <div class="search-bar">
+        <form class="search-form d-flex align-items-center">
+            <input type="text" name="query" placeholder="Search" title="Enter search keyword">
+            <button id="search"><i class="bi bi-search" title="Search"></i></button>
+        </form>
+    </div><!-- End Search Bar -->
+    <div class="nav-item dropdown pe-3">
+        <!--<div class="ms-auto float-start ">-->
+
+        <button class="btn btn-outline-secondary d-none d-md-inline" id="gridView"><i class="bi bi-grid-fill"></i></button>
+        <button class="btn btn-secondary d-none d-md-inline" id="listView"><i class="fa-solid fa-bars fa-1x"></i></button>
+        <!--</div>-->
+
+    </div><!-- End Profile Nav -->
+
+    <!-- dropdown end-->
+    <nav class="header-nav ms-auto">
+        <ul class="d-flex align-items-center">
+
+            <li class="nav-item d-block d-lg-none">
+                <a class="nav-link nav-icon search-bar-toggle " href="#">
+                    <i class="bi bi-search"></i>
+                </a>
+            </li><!-- End Search Icon-->
+
+        </ul>
+    </nav><!-- End Icons Navigation -->
+
+</header><!-- End Header -->
+<main id="main" class="main">
+
+    <aside id="sidebar" class="sidebar toggle-sidebar">
+        <ul class="sidebar-nav" id="sidebar-nav">
+
+            <li class="nav-item">
+                <a th:href="@{/}"  id="allVacancy" class="nav-link">
+                <i class="bi bi-grid"></i>
+               <span>All Vacancies</span>
+              </a>
+            </li><!-- End Dashboard Nav -->
+
+            <li class="nav-heading">Search By</li>
+
+            <!-- Start Jobs Nav -->
+            <li class="nav-item">
+                <a class="nav-link collapsed" data-bs-target="#jobs-nav" data-bs-toggle="collapse" href="#">
+                    <i class="bi bi-briefcase"></i><span>Departments</span><i class="bi bi-chevron-down ms-auto"></i>
+                </a>
+                <ul id="jobs-nav" class="nav-content collapse" data-bs-parent="#sidebar-nav">
+                    <li th:each="department : ${departmentList}">
+                        <a class="text-decoration-none companyName" >
+                            <i class="bi bi-circle"></i><span >[[${department.name}]]</span>
+                        </a>
+                    </li>
+                </ul>
+            </li>
+            <!-- End Jobs Nav -->
+       
+            <li class="nav-item">
+                <a class="nav-link collapsed" id="contactUsBtn">
+                    <i class="bi bi-envelope"></i>
+                    <span>Contact</span>
+                </a>
+            </li><!-- End Contact Page Nav -->
+        </ul>
+
+    </aside>
+    <section class="section">
+        <div class="row gap-2" >
+            <div class="col-md-10 m-auto shadow p-3 mb-5 bg-white rounded jobPost" th:each="vacancy : ${vacancyList}">
+
+                <h4 class="d-inline text-primary"><a th:href="@{/jobs/details/{id}(id=${vacancy.id})}"><i class="fa-solid fa-bullhorn fa-fade"></i><span class="jobName">[[${vacancy.position}]]</span></a></h4>
+                <h5 class="d-inline float-end">[[${vacancy.requirePosition}]] Post<span th:if="${vacancy.requirePosition} > 1">s</span></h5>
+                <h5 th:text="${vacancy.department.name}" class="jobCompanyName" style="height:30px;"></h5>
+
+                <p class="font-monospace">Description</p>
+                <div class="mb-1">
+                    <span th:utext="${#strings.length(vacancy.description) > 300 ? #strings.substring(vacancy.description, 0, 300) + ' ...' : vacancy.description}"></span>
+                </div>
+                <a th:href="@{/jobs/details/{id}(id=${vacancy.id})}">
+                    <p>Read more <i class="fa-solid fa-ellipsis"></i></p>
+                </a>
+                <hr><span><i class="fa-solid fa-map"></i> [[${vacancy.department.company.location}]] </span>
+                <span class="float-end"><i class="fa-regular fa-calendar"></i>
+             <span th:if="${vacancy.daysLeft} == 0">Today</span>
+              <span th:if="${vacancy.daysLeft} == 1">Yesterday</span>
+              <span th:if="${vacancy.daysLeft} > 1">[[${vacancy.daysLeft}]] days Ago</span>
+             </span>
+
+            </div>
+            <!-- contact us -->
+            <div class="container contact-container">
+    <div class="row">
+        <div class="row">
+            <div class="col-sm">
+                <img src="https://cdn-icons-png.flaticon.com/512/1275/1275229.png" alt="" style="width:50px" height="50px">
+                <b>ADDRESS</b><br><br>
+                Building 18, 7th floor, MICT Park,<br>
+                Hlaing Township, Yangon, Myanmar
+            </div>
+            <div class="col-sm">
+                <img src="https://images.vexels.com/media/users/3/299494/isolated/preview/cca764f48fdfb1195d7963a4fc7a60fa-tech-antique-phone-icon.png" alt="" style="width:50px" height="50px">
+                <b>PHONE</b><br><br>
+                95-1-652239, 95-1-652270, 95-1-2305108,<br>
+                95-1-2305109, 95-1-2305110
+            </div>
+            <div class="col-sm col-md-2">
+                <img src="https://icon-library.com/images/fax-icon-png/fax-icon-png-15.jpg" alt="" style="width:50px" height="50px">
+                <b>FAX</b><br><br>
+                95-1-652271
+            </div>
+            <div class="col-sm col-md-3">
+                <img src="https://cdn-icons-png.flaticon.com/512/2250/2250206.png" alt="" style="width:50px" height="50px">
+                <b>EMAIL</b><br><br>
+                <a href="mailto:info@acedatasystems.com">info@acedatasystems.com</a><br>
+                <a href="mailto:hradmin@acedatasystems.com">hradmin@acedatasystems.com</a><br>
+                <a href="mailto:businessdevelopment@acedatasystems.com">businessdevelopment@acedatasystems.com</a>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<div class="container contact-container" id="contactUs">
+    <div class="row">
+        <div class="col-md-6">
+            <h2 class="text-center">Contact Us</h2>
+            <form id="candidate-contact-form">
+                <div class="form-group">
+                    <label>Name: </label>
+                        <input type="text" class="form-control" name="candidateName" placeholder="Enter your name">
+                   
+                </div>
+                <div class="form-group">
+                    <label for="email">Email:</label>
+                    <input type="email" class="form-control" id="email" name="email" placeholder="Enter your email">
+                </div>
+                <div class="form-group">
+                    <label>Recipient: </label>
+                        <select name="subject" class="form-control">
+                            <option value="Request For Quote">Request For Quote</option>
+                            <option value="Request For Job Opportunity">Request For Job Opportunity</option>
+                        </select>
+                   
+                </div>
+                <div class="form-group">
+                    <label for="message">Message:</label>
+                    <textarea class="form-control" id="message" name="content" rows="5" placeholder="Enter your message"></textarea>
+                </div>
+
+                <button type="submit" class="btn btn-primary btn-block" id="submit-button">
+                    <span id="spinner" class="spinner-border spinner-border-sm d-none" role="status" aria-hidden="true"></span>
+                    Submit
+                </button>
+
+            </form>
+        </div>
+        <div class="col-md-6">
+            <h2 class="text-center">Location</h2>
+            <!-- Google Maps Embed API -->
+            <iframe
+                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3818.51114433413!2d96.12591327377612!3d16.85059091804996!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x30c19523d670605d%3A0x4f02d62dc870a0fb!2sACE%20Data%20Systems%20Ltd.!5e0!3m2!1sen!2smm!4v1691986388375!5m2!1sen!2smm"
+                    width="100%"
+                    height="400"
+                    style="border:0;"
+                    allowfullscreen=""
+                    loading="lazy"
+            ></iframe>
+        </div>
+    </div>
+</div>
+            <div id="emptyVacancy" class="alert alert-primary text-center" role="alert" th:if="${vacancyList.size() < 1}">
+                NO VACANCY FOUND
+            </div>
+        <div class="alert alert-primary text-center d-none" id="empty" role="alert">
+        NO VACANCY FOUND
+        </div>
+            <!-- end contact us -->
+        </div>
+        <div id="myDiv" style="display: none;" th:text="${session.success}"></div>
+        <div id="vacancy-id" style="display: none" th:text="${session.vacancyId}"></div>
+        <div id="candidate-email" style="display: none" th:text="${session.candidateEmail}"></div>
+        <div id="candidate-name" style="display: none" th:text="${session.candidateName}"></div>
+        <div id="vacancy-name" style="display: none" th:text="${session.vacancyName}"></div>
+        <div id="company-name" style="display: none" th:text="${session.companyName}"></div>
+    </section>
+
+</main><!-- End #main -->
+
+<!-- ======= Footer ======= -->
+<footer id="footer" class="footer">
+    <div class="copyright">
+        &copy; Copyright <strong><span>Team BlackJack</span></strong>. All Rights Reserved
+    </div>
+
+</footer><!-- End Footer -->
+
+<a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+
+<script src="/assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src="/assets/js/main.js"></script>
+
+</body>
+
+</html>

@@ -1,0 +1,412 @@
+
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head>
+
+  <div th:fragment="head"><!-- to replace head start -->
+
+    <!--UserRole for notification-->
+    <div id="user-role-for-notification" th:text="${#authentication.principal.userRole}" hidden></div>
+
+    <!--WebSocket with sockJs and stomp-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.6.1/sockjs.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.js"></script>
+    <script src="/assets/js/web-socket-notification.js"></script>
+
+
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+
+  <title>JRAOMS</title>
+  <meta content="" name="description">
+  <meta content="" name="keywords">
+
+  <!-- Favicons -->
+
+<link rel="shortcut icon" type="icon/image" href="https://acedatasystems.com/wp-content/themes/acedata/shared/images/fav/favicon.ico">
+
+
+  <!-- Google Fonts -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+  <link href="https://fonts.gstatic.com" rel="preconnect">
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
+
+  <!-- Vendor CSS Files -->
+   <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css"/>
+  <link href="/assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <link href="/assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+  <link href="/assets/vendor/boxicons/css/boxicons.min.css" rel="stylesheet">
+  <link href="/assets/vendor/quill/quill.snow.css" rel="stylesheet">
+  <link href="/assets/vendor/quill/quill.bubble.css" rel="stylesheet">
+  <link href="/assets/vendor/remixicon/remixicon.css" rel="stylesheet">
+
+  <!-- Template Main JS File -->
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+ 
+  <!-- Google Fonts -->
+  <link href="https://fonts.gstatic.com" rel="preconnect">
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
+
+
+  <!-- Vendor CSS Files -->
+  <link th:href="@{/assets/vendor/bootstrap/css/bootstrap.min.css}" rel="stylesheet">
+  <link th:href="@{/assets/vendor/bootstrap-icons/bootstrap-icons.css}" rel="stylesheet">
+  <link th:href="@{/assets/vendor/boxicons/css/boxicons.min.css}" rel="stylesheet">
+  <link th:href="@{/assets/vendor/quill/quill.snow.css}" rel="stylesheet">
+  <link th:href="@{/assets/vendor/quill/quill.bubble.css}" rel="stylesheet">
+  <link th:href="@{/assets/vendor/remixicon/remixicon.css}" rel="stylesheet">
+  <link th:href="@{/assets/vendor/simple-datatables/style.css}" rel="stylesheet">
+
+  <!-- Template Main CSS File -->
+  <link th:href="@{/assets/css/style.css}" rel="stylesheet">
+  <link th:href="@{/assets/css/adminstyle.css}" rel="stylesheet">
+   <link th:href="@{/assets/css/confirmBox.css}" rel="stylesheet">
+</div><!-- to replace head end -->
+
+
+
+<div th:fragment="custom1"><!-- to replace custom css for active vacancies start -->
+  <link th:href="@{/assets/css/activejobstyle.css}" rel="stylesheet">
+  <link th:href="@{/assets/css/candidateAddCv.css}" rel="stylesheet">
+</div><!-- to replace custom css for active vacancies end -->
+
+  <div th:fragment="customforaddjob"><!-- to replace addjob start -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/izitoast/1.4.0/css/iziToast.min.css" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/izitoast/1.4.0/js/iziToast.min.js"></script>
+    <script src="/assets/js/addjobs.js"></script>
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" />
+
+
+    <!-- include summernote css/js -->
+    <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.js"></script>
+
+    <style>
+      .error {
+        color: red;
+        font-size: 12px;
+      }
+      .inputError {
+        border:solid 2px red;
+      }
+    </style>
+
+  </div><!-- to replace addjob end -->
+  
+  <div th:fragment="editVacancy">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/izitoast/1.4.0/css/iziToast.min.css" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/izitoast/1.4.0/js/iziToast.min.js"></script>
+    <script src="/assets/js/editVacancy.js"></script>
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" />
+    <!-- include summernote css/js -->
+    <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.js"></script>
+  </div>
+  
+  <div th:fragment="customformanageuser"><!-- to replace manage user start -->
+    <link th:href="@{/assets/css/index2.css}" rel="stylesheet">
+  </div><!-- to replace manage user end -->
+ 
+  <div th:fragment="customforregisteruser"><!-- to replace register user start -->
+    <style>
+      .error {
+        color: red;
+        font-size: 12px;
+      }
+      .form {
+       height:600px;
+       }
+    </style>
+  </div>
+</head>
+
+<div th:fragment="popupCdn">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/izitoast/1.4.0/css/iziToast.min.css" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/izitoast/1.4.0/js/iziToast.min.js"></script>
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" />
+  </div>
+
+<body>
+
+
+<div th:fragment="header"><!-- to replace header start -->
+<!-- ======= Header ======= -->
+<header id="header" class="header fixed-top d-flex align-items-center">
+
+  <div class="d-flex align-items-center justify-content-between">
+
+    <a th:href="@{/dashboard}" class="logo d-flex align-items-center text-decoration-none">
+      <img th:src="@{/assets/img/logo.jpg}" alt="">
+      <span class="d-none d-lg-block">Ace Data System</span>
+    </a>
+    <i class="bi bi-list toggle-sidebar-btn"></i>
+  </div><!-- End Logo -->
+
+  <nav class="header-nav ms-auto">
+    <ul class="d-flex align-items-center">
+
+      <!--Notification-->
+      <li class="nav-item dropdown">
+        <a id="total-notification"></a>
+        <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow notifications">
+          <div id="notification-content"></div>
+        </ul>
+      </li>
+
+       <li class="nav-item dropdown pe-3" >
+
+          <a class="nav-link nav-profile d-flex align-items-center pe-0" href="#" data-bs-toggle="dropdown">
+           <img th:src="@{'/assets/img/'+ ${#authentication.principal.userImage}}" alt="Profile" class="rounded-circle"> 
+            <span class="d-none d-md-block dropdown-toggle ps-2"  th:text="${#authentication.principal.userName}"></span>
+          </a>
+
+          <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
+            <li class="dropdown-header">
+              <h6 th:text="${#authentication.principal.userName}"></h6>
+              <span th:text="${#authentication.principal.userRole}"> </span>
+            </li>
+            <li>
+              <hr class="dropdown-divider">
+            </li>
+
+            <li>
+              <a class="dropdown-item d-flex align-items-center" th:href="@{/userprofile}">
+                <i class="bi bi-person"></i>
+                <span>My Profile</span>
+              </a>
+            </li>
+            <li>
+              <hr class="dropdown-divider">
+            </li>
+
+            <li>
+              <a class="dropdown-item d-flex align-items-center" th:href="@{/logout}">
+                <i class="bi bi-box-arrow-right"></i>
+                <span>Sign Out</span>
+              </a>
+            </li>
+
+          </ul>
+        </li>
+
+    </ul>
+  </nav><!-- End Icons Navigation -->
+
+</header><!-- End Header -->
+</div><!-- to replace header end -->
+<div th:fragment="sidebar"><!-- to replace sidebar start -->
+<!-- ======= Sidebar ======= -->
+<aside id="sidebar" class="sidebar">
+
+  <ul class="sidebar-nav" id="sidebar-nav">
+
+    <li class="nav-item">
+      <a th:href="@{/dashboard}" class="nav-link collapsed">
+        <i class="bi bi-grid"></i>
+        <span>Dashboard</span>
+      </a>
+    </li><!-- End Dashboard Nav -->
+
+
+    <li class="nav-heading">Pages</li>
+
+    <li class="nav-item">
+      <a class="nav-link collapsed" th:href="@{/userprofile}" >
+        <i class="bi bi-person"></i>
+        <span>Profile</span>
+      </a>
+    </li>
+
+    <!-- Start Jobs Nav -->
+    <li class="nav-item">
+      <a class="nav-link collapsed" data-bs-target="#jobs-nav" data-bs-toggle="collapse" href="#">
+        <i class="bi bi-briefcase"></i><span>Jobs</span><i class="bi bi-chevron-down ms-auto"></i>
+      </a>
+      <ul id="jobs-nav" class="nav-content collapse" data-bs-parent="#sidebar-nav">
+        <li>
+          <a th:href="@{/activevacancies}" class="text-decoration-none">
+            <i class="bi bi-circle"></i><span>Active Jobs</span>
+          </a>
+        </li>
+
+        <li>
+          <a th:href="@{/expiredvacancies}"  class="text-decoration-none">
+            <i class="bi bi-circle"></i><span>Expired Jobs</span>
+          </a>
+        </li>
+
+        <li sec:authorize="hasAnyAuthority('ADMIN','SENIOR','JUNIOR')">
+          <a th:href="@{/vacancy/post}"  class="text-decoration-none">
+            <i class="bi bi-circle"></i><span>Add Jobs</span>
+          </a>
+        </li>
+        <!--<li>
+          <a href="#"  class="text-decoration-none">
+            <i class="bi bi-circle"></i><span>Manage Jobs</span>
+          </a>
+        </li>-->
+      </ul>
+    </li>
+    
+    <!-- End Jobs Nav -->
+
+    <!-- Start Company Nav -->
+    <li class="nav-item" sec:authorize="hasAuthority('ADMIN')">
+      <a class="nav-link collapsed" th:href="@{'/system/companydetails/1'}" >
+        <i class="bi bi-buildings"></i>
+        <span>Company</span>
+      </a>
+    </li>
+    <!-- End Company Nav -->
+
+    <li class="nav-item" sec:authorize="hasAnyAuthority('SENIOR', 'ADMIN')">
+      <a class="nav-link collapsed" th:href="@{/manage/allcandidate}">
+        <i class="bi bi-person-check"></i>
+        <span>All Candidates</span>
+      </a>
+    </li>
+
+    <li class="nav-item" sec:authorize="hasAnyAuthority('SENIOR', 'ADMIN')">
+      <a class="nav-link collapsed" th:href="@{/manage/interviewprocess}">
+       <i class="bi bi-terminal-split"></i>
+        <span>Interview Process</span>
+      </a>
+    </li>
+    <!-- Start Users Nav -->
+    <li class="nav-item" sec:authorize="hasAuthority('ADMIN')">
+      <a class="nav-link collapsed" data-bs-target="#user-nav" data-bs-toggle="collapse" href="#">
+        <i class="bi bi-person"></i><span>Users</span><i class="bi bi-chevron-down ms-auto"></i>
+      </a>
+      <ul id="user-nav" class="nav-content collapse" data-bs-parent="#sidebar-nav">
+        <li>
+          <a th:href="@{/system/manageusers}"  class="text-decoration-none">
+            <i class="bi bi-circle"></i><span>Manage Users</span>
+          </a>
+        </li>
+        <li>
+          <a th:href="@{/system/userregister}"  class="text-decoration-none">
+            <i class="bi bi-circle"></i><span>Add Users</span>
+          </a>
+        </li>
+
+      </ul>
+    </li>
+    <!-- End User Nav -->
+
+    <li class="nav-item">
+      <a class="nav-link collapsed" data-bs-target="#charts" data-bs-toggle="collapse" href="#">
+     <i class="bi bi-bar-chart-line-fill"></i>
+        <span>Charts</span><i class="bi bi-chevron-down ms-auto"></i>
+      </a>
+       <ul id="charts" class="nav-content collapse" data-bs-parent="#sidebar-nav">
+        <li>
+          <a  th:href="@{/candidatecharts}"  class="text-decoration-none">
+            <i class="bi bi-circle"></i><span>Candidate -Vacancy Charts</span>
+          </a>
+        </li>
+        <li>
+          <a  th:href="@{/vacancycharts}"  class="text-decoration-none">
+            <i class="bi bi-circle"></i><span>Vacancy in Monthly Charts</span>
+          </a>
+        </li>
+
+      </ul>
+    </li>
+
+  </ul>
+
+</aside><!-- End Sidebar-->
+</div><!-- to replace header end -->
+<main id="main" class="main">
+
+</main><!-- End #main -->
+
+<!-- ======= Footer ======= -->
+<div th:fragment="footer"><!-- to replace footer start -->
+<footer id="footer" class="footer">
+  <div class="copyright">
+    <strong><span>Design & Developed By BlackJack</span></strong>
+  </div>
+
+</footer><!-- End Footer -->
+</div><!-- to replace footer end -->
+
+<div th:fragment="customscriptsforuserregister"><!-- to replace script for user register start -->
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script>
+    // Fetch the company list from the endpoint
+    fetch('/company')
+            .then(response => response.json())
+            .then(data => {
+              const select = document.getElementById('company');
+
+              // Iterate over the company data and create option elements
+              data.forEach(company => {
+                const option = document.createElement('option');
+                option.value = company.id;
+                option.textContent = company.name;
+                select.appendChild(option);
+              });
+            })
+            .catch(error => {
+              console.error('Error fetching company list:', error);
+            });
+
+    // Fetch the department list when a company is selected
+    const companySelect = document.getElementById('company');
+    const departmentSelect = document.getElementById('department');
+
+      const companyId = 1;
+
+      if (companyId) {
+        // Fetch the department list based on the selected company
+        fetch(`/departmentList/${companyId}`)
+                .then(response => response.json())
+                .then(data => {
+                  console.log("Hello this is data");
+                  console.log(data);
+                  // Iterate over the department data and create option elements
+                  data.forEach(department => {
+                    const option = document.createElement('option');
+                    option.value = department.id;
+                    option.textContent = department.name;
+                
+                    if(department.enable == true){
+                      if(departmentSelect.value != department.id){
+                        departmentSelect.appendChild(option);
+                      }
+                    }
+                   
+                  });
+                })
+                .catch(error => {
+                  console.error('Error fetching department list:', error);
+                });
+      }
+  
+  </script>
+</div><!-- to replace script for user register end -->
+
+<div th:fragment="scripts"><!-- to replace scripts start -->
+<a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+
+<!-- Vendor JS Files -->
+<script th:src="@{/assets/vendor/apexcharts/apexcharts.min.js}"></script>
+<script th:src="@{/assets/vendor/bootstrap/js/bootstrap.bundle.min.js}"></script>
+<script th:src="@{/assets/vendor/chart.js/chart.umd.js}"></script>
+<script th:src="@{/assets/vendor/echarts/echarts.min.js}"></script>
+<script th:src="@{/assets/vendor/simple-datatables/simple-datatables.js}"></script>
+<script th:src="@{/assets/vendor/php-email-form/validate.js}"></script>
+
+<!-- Template Main JS File -->
+<script th:src="@{/assets/js/main.js}"></script>
+</div><!-- to replace scripts end -->
+ 
+</body>
+
+</html>

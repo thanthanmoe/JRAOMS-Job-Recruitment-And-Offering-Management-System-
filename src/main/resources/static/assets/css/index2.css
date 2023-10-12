@@ -1,0 +1,50 @@
+/* Styles for the datatable */
+table {
+    border-collapse: collapse;
+    width: 100%;
+}
+
+th, td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+}
+
+th.sortable {
+    cursor: pointer;
+}
+
+/* Style for indicating the sorting direction */
+th.sortable.sorted-asc::after {
+    content: '\25b2'; /* Upward pointing triangle */
+    margin-left: 5px;
+}
+
+th.sortable.sorted-desc::after {
+    content: '\25bc'; /* Downward pointing triangle */
+    margin-left: 5px;
+}
+
+tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+/* Styles for pagination */
+#pagination {
+    margin-top: 10px;
+    text-align: center;
+}
+
+.pagination-link {
+    margin: 0 5px;
+    cursor: pointer;
+    display: inline-block;
+    padding: 5px 10px;
+    background-color: #ddd;
+    color: #333;
+}
+
+.pagination-link.active {
+    background-color: #007bff;
+    color: #fff;
+}

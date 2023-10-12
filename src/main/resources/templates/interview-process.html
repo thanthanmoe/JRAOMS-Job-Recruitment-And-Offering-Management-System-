@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head>
+	<!-- Favicons -->
+	<link rel="shortcut icon" type="icon/image" href="https://acedatasystems.com/wp-content/themes/acedata/shared/images/fav/favicon.ico">
+
+	<div th:replace="side-bar :: head"></div>
+	<style>
+	
+
+	#interviewProcess {
+		font-family: Arial, Helvetica, sans-serif;
+		border-collapse: collapse;
+		width: 100%;
+	}
+
+	#interviewProcess td, #interviewProcess th {
+		border: 1px solid #ddd;
+		padding: 8px;
+	}
+
+	/*#interviewProcess tr:nth-child(even){background-color: #d1e7dd;}*/
+
+	#interviewProcess tr:hover {background-color:  #d1e7dd;}
+
+	#interviewProcess th {
+		padding-top: 12px;
+		padding-bottom: 12px;
+		text-align: left;
+		background-color: #B3B6B7;
+		color: black;
+	}
+	</style>
+</head>
+
+<body>
+<div th:replace="side-bar :: header"></div>
+<div th:replace="side-bar :: sidebar"></div>
+
+
+<main id="main" class="main">
+
+	<ol class="breadcrumb">
+
+		<li class="breadcrumb-item active"><H4>All Interview Process</H4></li>
+	</ol>
+	<!-- End #main -->
+	<div class="m-auto  p-3 mb-5 bg-grey" style="margin-left: 40px; margin-top:50px;line-height: 2;">
+		<div class="row ">
+			<div class="col-md-6 input-group" style="width:250px;">
+					<span class="input-group-text" id="inputGroup-sizing-sm"><i
+							class="bi bi-search"></i></span> <input type="text" class="form-control" placeholder="Search..."
+																	aria-label="Sizing example input" id="company"
+																	aria-describedby="inputGroup-sizing-sm">
+
+			</div>
+			<div class="col-md-7"></div>
+			<div class="col-md-2">
+				
+				<a class="btn btn-success" th:href="@{/manage/xlsx}">
+					<i class="fas fa-file-excel fa-lg excel-icon icon"></i>
+				</a>
+				<a class="btn btn-success" th:href="@{/manage/pdf}">
+					<i class="fas fa-file-pdf fa-lg pdf-icon icon"></i>
+				</a>
+			</div>
+		
+		
+		</div>
+		<br>
+		
+		<div>
+			<table  id="interviewProcess">
+				<tr>
+					<th>No.</th>
+					<th>From Date</th>
+					<th>To Date</th>
+					<th>Vacancy Position</th>
+					<th>Total Candidates</th>
+					<th>Receive Stage</th>
+					<th>View Stage</th>
+					<th>Considering Stage</th>
+					<th>Not Interview</th>
+					<th>Interview</th>
+					<th>Pending</th>
+					<th>Passed</th>
+					<th>Cancel</th>
+				</tr>
+				<tr th:each="processList : ${interviewList}">
+					<td th:text="${processList.id}"></td>
+					<td th:text="${processList.start_date}"></td>
+					<td th:text="${processList.end_date}"></td>
+					<td th:text="${processList.position}"></td>
+				<td th:text="${processList.total_candidates == 0 || processList.total_candidates == null ? '-' : processList.total_candidates}"></td>
+				<td th:text="${processList.receive == 0 || processList.receive == null ? '-' : processList.receive}"></td>
+				<td th:text="${processList.view == 0 || processList.view == null ? '-' : processList.view}"></td>
+				<td th:text="${processList.considering == 0 || processList.considering == null ? '-' : processList.considering}"></td>
+				<td th:text="${processList.not_interview == 0 || processList.not_interview == null ? '-' : processList.not_interview}"></td>
+				<td th:text="${processList.interview_candidate == 0 || processList.interview_candidate == null ? '-' : processList.interview_candidate}"></td>
+				<td th:text="${processList.pending == 0 || processList.pending == null ? '-' : processList.pending}"></td>
+				<td th:text="${processList.passed == 0 || processList.passed == null ? '-' : processList.passed}"></td>
+				<td th:text="${processList.cancel == 0 || processList.cancel == null ? '-' : processList.cancel}"></td>
+				</tr>
+
+			</table>
+		</div>
+		<div id="noResults" style="display:none;">Your Searching is not found</div>
+
+	</div>
+	<!-- End #main -->
+</main>
+
+<div th:replace="side-bar :: footer"></div>
+<script>
+	$(document).ready(function(){
+		$("#company").on("keyup", function() {
+			var value = $(this).val().toLowerCase();
+			var hasResult = false;
+
+			$("table tr:not(:has(th))").filter(function() {
+				if($(this).text().toLowerCase().indexOf(value) > -1) {
+					$(this).toggle(true);
+					hasResult = true;
+				} else {
+					$(this).toggle(false);
+				}
+			});
+
+			if(!hasResult && value.length > 0) {
+				$('#noResults').show();
+			} else {
+				$('#noResults').hide();
+			}
+		});
+	});
+
+</script>
+<div th:replace="side-bar :: scripts"></div>
+</body>
+</html>

@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head>
+  <!-- Favicons -->
+  <link rel="shortcut icon" type="icon/image" href="https://acedatasystems.com/wp-content/themes/acedata/shared/images/fav/favicon.ico">
+
+  <div th:replace="side-bar :: head"></div>
+  <div th:replace="side-bar :: customforregisteruser"></div>
+  <div th:replace="side-bar :: popupCdn"></div>
+  <script src="/assets/js/user_register.js"></script>
+</head>
+
+<body>
+<div th:replace="side-bar :: header"></div>
+<div th:replace="side-bar :: sidebar"></div>
+
+<main id="main" class="main">
+
+    <div class="pagetitle">
+      <h1>Register</h1>
+      <nav>
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item">Home</li>
+          <li class="breadcrumb-item active">Register</li>
+        </ol>
+      </nav>
+    </div><!-- End Page Title -->
+
+    <section class="section dashboard">
+      <div class="row">
+        <div class="">
+          <div class="form m-auto col-5">
+            <div class="title">Register</div>
+
+            <form th:action="@{/system/userregister}" th:object="${userRegistrationDto}" method="post">
+              <div class="input-container ic1">
+                <input id="name" name="name" class="input" type="text" placeholder=" " required />
+                <div class="cut"></div>
+                <label for="name" class="placeholder55">Enter your Name</label>
+                <div id="nameError" class="error"></div>
+              </div>
+
+              <div class="input-container ic1">
+                <input id="email" name="email" class="input" type="email" placeholder=" " required />
+                <div class="cut"></div>
+                <label for="email" class="placeholder55">Enter your Email</label>
+                <div id="emailError" class="error"></div>
+              </div>
+
+              <div class="input-container ic1">
+                <select id="role" name="role" class="input" required style="font-size: 16px;">
+                  <option value="SENIOR">Senior HR</option>
+                  <option value="JUNIOR" selected>Junior HR</option>
+                  <option value="INTERVIEWER">Interviewer</option>
+                </select>
+                <div class="cut"></div>
+                <label for="role" class="placeholder55">Enter your Role</label>
+                <div id="roleError" class="error"></div>
+              </div>
+
+              <div class="input-container ic1">
+                <select id="department" name="departmentId" class="input" required style="font-size: 16px;">
+                  <option value="" disabled selected>Select your Department</option>
+                </select>
+                <div class="cut"></div>
+                <label for="department" class="placeholder55">Select your Department</label>
+                <div id="departmentError" class="error"></div>
+              </div>
+
+              <br><br><br>
+
+              <div class="button-container">
+
+                <button type="submit" class="submit" onclick="validateForm()">Submit</button>
+
+                <button type="reset" class="submit">Reset</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </section>
+   <div id="message" style="display: none;" th:text="${session.message}"></div>
+  </main><!-- End #main -->
+
+<div th:replace="side-bar :: footer"></div>
+<div th:replace="side-bar :: customscriptsforuserregister"></div>
+<div th:replace="side-bar :: scripts"></div>
+</body>
+</html>

@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head>
+  <!-- Favicons -->
+  <link rel="shortcut icon" type="icon/image" href="https://acedatasystems.com/wp-content/themes/acedata/shared/images/fav/favicon.ico">
+
+  <div th:replace="side-bar :: head"></div>
+  <div th:replace="side-bar :: customforaddjob"></div>
+</head>
+
+<body>
+  <div th:replace="side-bar :: header"></div>
+  <div th:replace="side-bar :: sidebar"></div>
+
+
+  <main id="main" class="main">
+
+
+    <div class="pagetitle">
+      <h1>Add Jobs</h1>
+      <nav>
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item">Home</li>
+          <li class="breadcrumb-item active">Add Job</li>
+        </ol>
+      </nav>
+    </div><!-- End Page Title -->
+
+    <section class="section dashboard">
+      <div class="body99">
+
+        <!--start of job offer form -->
+
+        <div class="body99">
+          <div class="card">
+            <div class="card-body">
+              <h5 class="card-title">Offer Jobs</h5>
+              <!-- Floating Labels Form -->
+              <form th:action="@{/vacancy/post}" class="row g-3" method="post" th:object="${vacancyBean}">
+                <div class="col-md-6">
+                  <div class="form-floating">
+                    <input type="text" class="form-control" id="floatingName" placeholder="Position"
+                      name="positionName">
+                    <label for="floatingName">Position Name</label>
+                  </div>
+                </div>
+
+                <div class="col-md-3">
+                  <div class="form-floating">
+                    <input type="text" class="form-control" id="salary" name="salary" placeholder="-">
+                    <label for="salary">Salary</label>
+                  </div>
+                </div>
+                <div class="col-md-3">
+                  <div class="form-floating">
+                    <input type="number" class="form-control" id="numberOfPost" placeholder="Posts" name="posts">
+                    <label for="numberOfPost">Number of Posts</label>
+                  </div>
+                </div>
+
+
+                <div class="col-md-6">
+                  <div class="form-floating">
+                    <input type="text" class="form-control" id="wkd" placeholder="-" readonly
+                      style="pointer-events: none; border: none;">
+                    <label for="wkd">Choose Working Days</label>
+                  </div>
+                </div>
+
+                <div class="col-md-6">
+                  <div class="form-check">
+                    <input class="form-check-input" type="checkbox" id="mondayCheckbox" value="Mon" name="workingDays"
+                      checked>
+                    <label class="form-check-label" for="mondayCheckbox">
+                      Monday
+                    </label>
+                  </div>
+                  <div class="form-check">
+                    <input class="form-check-input" type="checkbox" id="tuesdayCheckbox" value="Tue" name="workingDays"
+                      checked>
+                    <label class="form-check-label" for="tuesdayCheckbox">
+                      Tuesday
+                    </label>
+                  </div>
+                  <div class="form-check">
+                    <input class="form-check-input" type="checkbox" id="wednesdayCheckbox" value="Wed"
+                      name="workingDays" checked>
+                    <label class="form-check-label" for="wednesdayCheckbox">
+                      Wednesday
+                    </label>
+                  </div>
+                  <div class="form-check">
+                    <input class="form-check-input" type="checkbox" id="thursdayCheckbox" value="Thu" name="workingDays"
+                      checked>
+                    <label class="form-check-label" for="thursdayCheckbox">
+                      Thursday
+                    </label>
+                  </div>
+                  <div class="form-check">
+                    <input class="form-check-input" type="checkbox" id="fridayCheckbox" value="Fri" name="workingDays"
+                      checked>
+                    <label class="form-check-label" for="fridayCheckbox">
+                      Friday
+                    </label>
+                  </div>
+                  <div class="form-check">
+                    <input class="form-check-input" type="checkbox" id="saturdayCheckbox" value="Sat"
+                      name="workingDays">
+                    <label class="form-check-label" for="saturdayCheckbox">
+                      Saturday
+                    </label>
+                  </div>
+                  <div class="form-check">
+                    <input class="form-check-input" type="checkbox" id="sundayCheckbox" value="Sun" name="workingDays">
+                    <label class="form-check-label" for="sundayCheckbox">
+                      Sunday
+                    </label>
+                  </div>
+                </div>
+
+                <div class="col-md-6">
+                  <div class="form-floating">
+                    <input type="text" class="form-control" id="wkh" placeholder="-" readonly
+                      style="pointer-events: none; border: none;">
+                    <label for="wkh">Choose Working Hours</label>
+                  </div>
+                </div>
+                <div class="col-md-3">
+                  <div class="form-floating">
+                    <input type="time" class="form-control" id="workFrom" name="workingHourFrom">
+                    <label for="workFrom">From</label>
+                  </div>
+                </div>
+
+                <div class="col-md-3">
+                  <div class="form-floating">
+                    <input type="time" class="form-control" id="workTo" name="workingHourTo">
+                    <label for="workTo">To</label>
+                  </div>
+                </div>
+
+
+                <div class="col-md-6">
+                  <div class="form-floating">
+                    <input type="text" class="form-control" id="jobtype" placeholder="-" readonly
+                      style="pointer-events: none; border: none;">
+                    <label for="jobtype">Choose Job Types</label>
+                  </div>
+                </div>
+
+
+
+                <div class="col-md-6">
+                  <div class="form-floating">
+                    <div class="form-check">
+                      <input class="form-check-input" type="radio" name="jobType" id="fullTime" value="Fulltime"
+                        checked>
+                      <label class="form-check-label" for="fullTime">
+                        Full Time
+                      </label>
+                    </div>
+                    <div class="form-check">
+                      <input class="form-check-input" type="radio" name="jobType" id="partTime" value="Parttime">
+                      <label class="form-check-label" for="partTime">
+                        Part Time
+                      </label>
+                    </div>
+                    <div class="form-check">
+                      <input class="form-check-input" type="radio" name="jobType" id="workFrom" value="Workfromhome">
+                      <label class="form-check-label" for="workFrom">
+                        Work From Home
+                      </label>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="form-floating">
+                    <input type="text" class="form-control" placeholder="-" readonly
+                      style="pointer-events: none; border: none;">
+                    <label for="department">Choose Department</label>
+                  </div>
+                </div>
+
+                <div class="col-md-6">
+                  <div class="form-floating">
+                    <select class="form-select " id="department" aria-label="Job Location" name="departmentId">
+                      <option value="" disabled selected>Choose Department</option>
+                      <!-- Add more location options as needed -->
+                    </select>
+                    <label for="department">Department</label>
+                  </div>
+                </div>
+
+                <div class="col-12">
+                  <div class="form-floating">
+                    <textarea class="form-control" id="description" style="height: 100px;" name="description"
+                      placeholder="-"></textarea>
+                    <label for="description">Job Description</label>
+                  </div>
+                </div>
+
+                <div class="col-12">
+                  <div class="form-floating" id="respo">
+                    <textarea class="form-control" id="responsibility" style="height: 100px;" name="responsibilities"
+                      placeholder="-"></textarea>
+                    <!-- <label for="responsibility">Job Responsibilities</label>  -->
+                  </div>
+                </div>
+
+                <div class="col-12">
+                  <div class="form-floating" id="requ">
+                    <textarea class="form-control" id="requirement" style="height: 100px;" name="requirements"
+                      placeholder="-"></textarea>
+                    <!--  <label for="requirement">Job Requirements</label> -->
+                  </div>
+                </div>
+
+                <div class="col-12">
+                  <div class="form-floating" id="prefer">
+                    <textarea class="form-control" id="preference" style="height: 100px;" name="preference"
+                      placeholder="-"></textarea>
+                    <!-- <label for="preference">Preference</label>   -->
+                  </div>
+                </div>
+
+                <hr>
+
+                <div class="text-center">
+                  <button type="submit" class="btn btn-primary">Submit</button>
+                  <button type="reset" class="btn btn-secondary">Reset</button>
+                </div>
+              </form><!-- End floating Labels Form -->
+
+            </div>
+          </div>
+        </div>
+
+        <!--end of job offer form -->
+        <div id="myDiv" style="display: none;" th:text="${session.success}"></div>
+
+    </section>
+
+  </main><!-- End #main -->
+
+  <div th:replace="side-bar :: footer"></div>
+  <div th:replace="side-bar :: scripts"></div>
+</body>
+
+</html>

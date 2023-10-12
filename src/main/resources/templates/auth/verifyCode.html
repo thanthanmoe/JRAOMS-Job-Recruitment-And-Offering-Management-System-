@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link th:href="@{/assets/css/adminstyle.css}" rel="stylesheet">
+  <link rel="shortcut icon" type="icon/image"
+        href="https://acedatasystems.com/wp-content/themes/acedata/shared/images/fav/favicon.ico">
+  <link href="/assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <link href="/assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/izitoast/1.4.0/css/iziToast.min.css" rel="stylesheet">
+  <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/izitoast/1.4.0/js/iziToast.min.js"></script>
+   
+<title>Forgot Password</title>
+<style>
+.formadmin {
+height:340px;
+}
+.input:focus ~ .placeholder55 {
+  color:#06b;
+}
+.form-control {
+    display: block;
+    margin-right: 0.5rem;
+    text-align: center;
+    font-size: 1.25rem;
+    min-width: 0;
+    
+  }
+</style>
+</head>
+<body>  
+      <div class="bodyadmin99">
+  <div class="formadmin">
+    
+    <div class="subtitle">
+    <h2 class="text-center"><i class="bi bi-envelope-check border border-success p-1 rounded"></i></h2>
+    <h5 class="text-center">Password Reset</h5>
+    <p class="text-center">We send a verification code to [[${email}]]</p>
+    </div>
+    <form th:action="@{/auth/verifyOtpToResetPassword}" method="post">
+      <div class="d-flex mt-2">
+          <input type="tel" maxlength="1" pattern="[0-9]" class="form-control" id="one">
+          <input type="tel" maxlength="1" pattern="[0-9]" class="form-control" id="two">
+          <input type="tel" maxlength="1" pattern="[0-9]" class="form-control" id="three">
+          <input type="tel" maxlength="1" pattern="[0-9]" class="form-control" id="four">
+          <input type="tel" maxlength="1" pattern="[0-9]" class="form-control" id="five">
+          <input type="tel" maxlength="1" pattern="[0-9]" class="form-control" id="six">
+        </div>
+
+      <div class="button-container mt-2 row">
+      <input type="hidden" name="email" id="email" th:value="${email}"/>
+      <input type="hidden" name="verificationCode" id="verifyCode"/>
+        <p class="" id="resend">Don't receive the email?Try again in 45s</p>
+        <button type="submit" class="btn btn-primary rounded-3 col-11 m-auto" id="continue">Continue</button>
+        <a href="/login" class="col-6 m-auto text-decoration-none mt-2"><i class="bi bi-arrow-left"></i> Back to log in</a>
+      </div>
+    </form>
+    
+   <div id="message" style="display: none;" th:text="${session.message}"></div>
+  </div>
+</div>
+<script>
+const form = document.querySelector('form')
+const inputs = form.querySelectorAll('input[type="tel"]')
+const KEYBOARDS = {
+	backspace: 8,
+	arrowLeft: 37,
+	arrowRight: 39,
+}
+
+function handleInput(e) {
+	const input = e.target
+	const nextInput = input.nextElementSibling
+	if (nextInput && input.value) {
+		nextInput.focus()
+		if (nextInput.value) {
+			nextInput.select()
+		}
+	}
+}
+
+function handlePaste(e) {
+	e.preventDefault()
+	const paste = e.clipboardData.getData('text')
+	inputs.forEach((input, i) => {
+		input.value = paste[i] || ''
+	})
+}
+
+function handleBackspace(e) {
+	const input = e.target
+	if (input.value) {
+		input.value = ''
+		return
+	}
+
+	input.previousElementSibling.focus()
+}
+
+function handleArrowLeft(e) {
+	const previousInput = e.target.previousElementSibling
+	if (!previousInput) return
+	previousInput.focus()
+}
+
+function handleArrowRight(e) {
+	const nextInput = e.target.nextElementSibling
+	if (!nextInput) return
+	nextInput.focus()
+}
+
+form.addEventListener('input', handleInput)
+inputs[0].addEventListener('paste', handlePaste)
+
+inputs.forEach(input => {
+	input.addEventListener('focus', e => {
+		setTimeout(() => {
+			e.target.select()
+		}, 0)
+	})
+
+	input.addEventListener('keydown', e => {
+		switch (e.keyCode) {
+			case KEYBOARDS.backspace:
+				handleBackspace(e)
+				break
+			case KEYBOARDS.arrowLeft:
+				handleArrowLeft(e)
+				break
+			case KEYBOARDS.arrowRight:
+				handleArrowRight(e)
+				break
+			default:
+		}
+	})
+})
+
+iziToast.settings({
+	timeout: 3000,
+	resetOnHover: true,
+	transitionIn: 'flipInX',
+	transitionOut: 'flipOutX',
+	position: 'topCenter',
+	onOpen: function() {
+		console.log('callback abriu!');
+	},
+	onClose: function() {
+		console.log("callback fechou!");
+	}
+});
+
+$(document).ready(function() {
+	if ($('#message').html() == 'wrongCode') {
+
+		iziToast.error({icon:'bi bi-lock', title: 'Error', message: 'Invaild Varification Code' });
+		$.ajax({
+			url: '/auth/clearSessionMessage',
+			method: 'GET',
+			dataType: 'json',
+			success: function(response) {
+				console.log("success");
+			},
+			error: function(error) {
+				console.log("Fail to clear session" + error);
+			}
+		});
+	}
+	let second = 44;
+	function updateTimer() {
+		if (second > 0) {
+			$('#resend').html('Don\'t receive the email?Try again in ' + second + 's');
+			second--;
+		} else {
+
+			$('#resend').html('Resend verification Code');
+			$('#resend').addClass("text-decoration-none text-primary");
+			clearInterval(intervalId);
+		}
+
+	};
+
+	const intervalId = setInterval(updateTimer, 1000);
+
+	let one = $('#one');
+	let two = $('#two');
+	let three = $('#three');
+	let four = $('#four');
+	let five = $('#five');
+	let six = $('#six');
+	let verifyCode = $('#verifyCode');
+
+	const arr = [one, two, three, four, five, six];
+	$('#continue').click(function(event) {
+		if (one.val() == '' || two.val() == '' || three.val() == '' || four.val() == '' || five.val() == '' || six.val() == '') {
+			for (let i = 0; i < arr.length; i++) {
+				arr[i].addClass("border border-danger");
+			}
+
+			setTimeout(function() {
+				for (let i = 0; i < arr.length; i++) {
+					arr[i].removeClass("border border-danger");
+				}
+			}, 3000);
+
+			event.preventDefault();
+			return false;
+		}
+		verifyCode.val(one.val() + '' + two.val() + '' + three.val() + '' + four.val() + '' + five.val() + '' + six.val());
+	});
+
+
+	$('#resend').click(function() {
+		if (second == 0) {
+			if (second == 0) {
+				$.ajax({
+					url: '/auth/resendVerificationCode/' + $('#email').val(),
+					method: 'GET',
+					dataType: 'json',
+					success: function(response) {
+						console.log(response.status);
+						if (response.status === 'okey') {
+							sameEmail = false;
+							iziToast.info({ icon:'bi bi-envelope-check-fill', title: 'Success', message: 'Verification code Successfully Send!' });
+						}
+					},
+					error: function(error) {
+						console.log('Email send failed' + error)
+						iziToast.error({ icon:'bi bi-emoji-frown', title: 'error', message: 'Something went wrong!' });
+					}
+				});
+			}
+			$('#resend').removeClass("text-decoration-underline text-primary");
+			second = 45;
+			updateTimer();
+			const intervalId = setInterval(updateTimer, 1000);
+
+		}
+	});
+});
+</script>
+</body>
+</html>

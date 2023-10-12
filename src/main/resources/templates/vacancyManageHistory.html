@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head>
+    <!-- Favicons -->
+    <link rel="shortcut icon" type="icon/image" href="https://acedatasystems.com/wp-content/themes/acedata/shared/images/fav/favicon.ico">
+
+    <div th:replace="side-bar :: head"></div>
+   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+
+<body>
+<div th:replace="side-bar :: header"></div>
+<div th:replace="side-bar :: sidebar"></div>
+
+
+
+ <main id="main" class="main">
+
+
+    <div class="pagetitle">
+      <h1>Vacancy Manage History</h1>
+      <nav>
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item">Home</li>
+          <li class="breadcrumb-item active">Vacancy History</li>
+        </ol>
+      </nav>
+    </div><!-- End Page Title -->
+
+    <section class="section dashboard">
+      
+
+        <div class="row gap-2" >
+            <div class="col-lg-10 m-auto shadow p-3 mb-5 bg-white rounded jobPost" >
+            <div class="border rounded-4 bg-primary text-light text-center">[[${vacancy.position}]]</div>
+            <table class="table table-striped">
+            <tr th:each="history : ${historyList}">
+            <td>[[${history.dayBehind}]]</td>
+            <td>[[${history.user.name}]] [[${history.action}]]d this vacancy</td>
+            <td>
+                [[${history.date}]]
+            </td>
+           
+            </tr>
+            </table>
+             </div>
+        </div>
+	 <div class="d-flex justify-content-center">
+        <div>
+          <a th:href="@{/vacancydetails/{id}(id=${vacancy.id})}">
+          <button class="btn border-0 ">
+            <i class="fa-solid fa-circle-chevron-left fa-3x"></i>  
+          </button>
+          </a>
+        </div>
+      </div>
+  
+    </section>
+
+  </main><!-- End #main -->
+
+<div th:replace="side-bar :: footer"></div>
+<div th:replace="side-bar :: scripts"></div>
+</body>
+</html>

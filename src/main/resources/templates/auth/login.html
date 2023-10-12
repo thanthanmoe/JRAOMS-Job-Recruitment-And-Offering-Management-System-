@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link th:href="@{/assets/css/adminstyle.css}" rel="stylesheet">
+  <link rel="shortcut icon" type="icon/image"
+        href="https://acedatasystems.com/wp-content/themes/acedata/shared/images/fav/favicon.ico">
+  <link href="/assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <link href="/assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/izitoast/1.4.0/css/iziToast.min.css" rel="stylesheet">
+  <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/izitoast/1.4.0/js/iziToast.min.js"></script>
+
+
+   
+
+<script>
+  function validateForm() {
+    var email = document.getElementById("email").value;
+    var password = document.getElementById("password").value;
+
+    var emailError = document.getElementById("emailError");
+    var passwordError = document.getElementById("passwordError");
+
+    // Check if both fields are filled
+    var isValid = true;
+
+    if (email === "") {
+      emailError.innerText = "Please enter your email";
+      setTimeout(function(){
+    	  emailError.innerText = "";
+      },3000);
+      isValid = false;
+    } else if (!isValidEmail(email)) {
+      emailError.innerText = "Please enter a valid email address";
+      setTimeout(function(){
+    	  emailError.innerText = "";
+      },3000);
+      isValid = false;
+    } else {
+      emailError.innerText = "";
+    }
+
+    if (password === "") {
+      passwordError.innerText = "Please enter your password";
+      setTimeout(function(){
+    	  passwordError.innerText = "";
+      },3000);
+      isValid = false;
+    } else {
+      passwordError.innerText = "";
+    }
+
+    return isValid;
+  }
+
+  function resetForm() {
+    document.getElementById("email").value = "";
+    document.getElementById("password").value = "";
+    document.getElementById("emailError").innerText = "";
+    document.getElementById("passwordError").innerText = "";
+  }
+
+  function isValidEmail(email) {
+    // Regular expression for email validation
+    var emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
+  }
+</script>
+
+<title>Admin Login</title>
+</head>
+
+ <div class="bodyadmin99">
+  <div class="formadmin">
+    <div class="text-center m-0 login-logo pb-0">
+    <p class="p-0 m-0 ace">ACE</p>
+    <p class="text-center pt-0 mt-0 ltd">Data Systems Ltd.</p>
+    </div>
+
+    <form th:action="@{/login}" method="post" class="login-form">
+      <div class="input-container ic1">
+        <input id="email" name="email" class="input" type="text" placeholder=" " required/>
+        <div class="cut"></div>
+        <label for="email" class="placeholder55">Enter your Email</label>
+        <div id="emailError" class="error"></div>
+      </div>
+
+      <div class="input-container ic1 mb-3">
+        <input id="password" name="password" class="input" type="password" placeholder=" " required/>
+        <div class="cut"></div>
+        <label for="password" class="placeholder55">Enter your Password</label>
+        <div id="passwordError" class="error"></div>
+      </div> 
+      <a th:href="@{/auth/verifyEmailToResetPassword}" class="text-decoration-none text-center">Forgot Password?</a>
+      <br>
+      <div class="button-container mt-3">
+        <button type="submit" class="submit" onclick="validateForm()">LOGIN</button>
+        
+      </div>
+    </form>
+   <div id="message" style="display: none;" th:text="${session.message}"></div>
+  </div>
+</div>
+<script>
+iziToast.settings({
+	timeout: 3000,
+	resetOnHover: true,
+	transitionIn: 'flipInX',
+	transitionOut: 'flipOutX',
+	position: 'topCenter',
+	onOpen: function() {
+		console.log('callback abriu!');
+	},
+	onClose: function() {
+		console.log("callback fechou!");
+	}
+});
+     $(document).ready(function(){
+    	 
+    	 if($('#message').html() == 'changedPassword') {
+    		 
+    		 iziToast.success({  icon: 'bi bi-shield-lock', title: 'Success', message: 'Password Successfully Changed' });
+    		 $.ajax({
+ 				url: '/auth/clearSessionMessage',
+ 				method: 'GET',
+ 				dataType: 'json',
+ 				success: function(response) {
+ 				   console.log("success");
+ 				},
+ 				error: function(error){
+ 				   console.log("Fail to clear session"+error);
+ 				}
+    		 });
+    	 }
+    	 const queryParams = new URLSearchParams(window.location.search);
+
+    	  // Check if the "error" parameter exists
+    	  if (queryParams.has('error')) {
+    		  iziToast.error({  icon: 'bi bi-shield-lock', message: 'Invaild Email or Password' });
+    	  }
+    	 
+     });
+</script>
+</html>

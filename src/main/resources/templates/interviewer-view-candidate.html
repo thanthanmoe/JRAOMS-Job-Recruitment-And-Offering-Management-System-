@@ -1,0 +1,763 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head>
+	<!-- Favicons -->
+	<link rel="shortcut icon" type="icon/image" href="https://acedatasystems.com/wp-content/themes/acedata/shared/images/fav/favicon.ico">
+
+	<div th:replace="side-bar :: head"></div>
+	<style>
+		.modal-content {
+			background-color: #E5E4E2;
+		}
+		.display th{
+			background-color:#D5D6EA;
+
+		}
+		.btn-custom-size {
+			width: 150px !important; /* Set the desired width */
+			height: 34px !important; /* Set the desired height */
+			box-shadow: none !important;
+			padding-right: 10px !important;
+		}
+		/* Custom CSS for active button */
+		.btn-arrow-right.active {
+			border: 1px solid black !important; /* Add a border to the active button with the same color as the background */
+			background: #a395f3 !important;
+		}
+		.modify{
+			background: #33a2a2 !important;
+		}
+
+		.narrowColumn {
+			width: 100px !important;
+			max-width: 100px !important;
+			min-width: 100px !important;
+			overflow: hidden;
+			word-wrap: break-word; /* Allow words to break and wrap within the container */
+		}
+		.stage{
+background: #3090C7;
+  border-radius: 20px;
+  padding: 6px 6px;
+  height:40px;
+   color:#ffff;
+}
+.stage1{
+background: #C24641;
+  border-radius: 20px;
+  padding: 6px 6px;
+  height:40px;
+  color:#ffff;
+}
+.confirm > form > button:hover {
+color:#0275d8;
+}
+
+    /* for input type file */
+  .input-file-container {
+    position:relative;
+    margin-right:60%;
+    width:20px;
+    
+  } 
+  .js .input-file-trigger {
+    display: block;
+    background: #39d2b300;
+    color: #000000;
+    font-size: 1em;
+    transition: all .4s;
+    cursor: pointer;
+    border-radius: 10px;
+  }
+  .js .input-file {
+    position: absolute;
+    top: 0; left: 0;
+    width: 225px;
+    opacity: 0;
+    cursor: pointer;
+  }
+  .js .input-file:hover + .input-file-trigger,
+  .js .input-file:focus + .input-file-trigger,
+  .js .input-file-trigger:hover,
+  .js .input-file-trigger:focus {
+    background: #34495e00;
+    color: #39d2b320;
+  }
+  
+  .file-return {
+    margin: 0;
+  }
+   
+  .file-return {
+    font-style: italic;
+    font-size: .9em;
+    font-weight: bold;
+    height:15px;
+  }
+  .js .file-return:not(:empty):before {
+    content: "Selected file: ";
+    font-style: normal;
+    font-weight: normal;
+  }
+  #fileLabel {
+    color:black;
+  }
+    /* Adjust the height of the editor to your needs */
+    .summernote-container .note-editable {
+      height: 300px; /* Set the desired height */
+      /* Add other styling as needed */
+    }
+  
+    /* Optional: Style the editor container */
+    .summernote-container {
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      padding: 10px;
+      /* Add other styling as needed */
+    }
+    input:focus, textarea:focus{
+        outline: none;
+    }
+    #cc,#subject {
+        width:100%;
+    }
+    .modal-footer {
+  display:flex;
+  justify-content: space-between;
+  }
+	.smallColumn {
+			width: 120px !important;
+			max-width: 150px !important;
+			min-width: 120px !important;
+			overflow: hidden;
+			word-wrap: break-word; /* Allow words to break and wrap within the container */
+		}
+.experience {
+			width: 90px !important;
+			max-width: 90px !important;
+			min-width: 90px !important;
+			overflow: hidden;
+			word-wrap: break-word; /* Allow words to break and wrap within the container */
+		}
+		.stageColumn {
+			width: 140px !important;
+			max-width: 150px !important;
+			min-width: 140px !important;
+			overflow: hidden;
+			word-wrap: break-word; /* Allow words to break and wrap within the container */
+		}
+    #toEmail {
+        border: 2px solid #007bff00; /* Primary color for top, left, and right borders */
+        border-bottom-color: #cfd8dc;
+    }
+    .candidate-badge {
+	position:absolute;
+	padding:0px;
+	z-index: 2;
+	left:80%;
+}
+ 
+.noti-badge {
+    position:relative;
+}
+  </style>
+  
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+  <!-- Template Main CSS File -->
+  <link href="assets/css/style.css" rel="stylesheet">
+	<link href="@{/assets/css/statuschange.css}" rel="stylesheet">
+<script type="text/javascript" src="//code.jquery.com/jquery-3.6.0.min.js"></script>
+      <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.js"></script>
+
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/izitoast/1.4.0/js/iziToast.min.js"></script>
+
+
+</head>
+
+<body>
+<div th:replace="side-bar :: header"></div>
+<div th:replace="side-bar :: sidebar"></div>
+<div th:replace="side-bar :: popupCdn"></div>
+
+<main id="main" class="main">
+	<!-- Start #main -->
+	<div class="container">
+		<div class="d-flex justify-content-center align-items-center" style="height: 50px;">
+
+			<div class="noti-badge">
+				<span class="badge bg-primary badge-number candidate-badge  rounded-5" id="notInterviewCount">0</span>
+				<button type="button" class="btn btn-arrow-right btn-custom-size changeActive modify text-light" style="border-color: deeppink;margin-right: 5px;" data-status="NOTINTERVIEW">
+					NotInterview
+				</button>
+			</div>
+			<div class="noti-badge">
+				<span class="badge bg-primary badge-number candidate-badge  rounded-5" id="cancelCount">0</span>
+				<button type="button" class="btn btn-arrow-right  btn-custom-size changeActive modify text-light" style="border-color: deeppink;margin-right: 5px;" data-status="CANCEL">Cancel</button>
+			</div>
+
+			<div class="noti-badge">
+				<span class="badge bg-primary badge-number candidate-badge  rounded-5" id="consideringCount">0</span>
+				<button type="button" class="btn btn-arrow-right btn-custom-size changeActive modify text-light" th:classappend="${actionStage == 'CONSIDERING'} ? 'active' : ''" style="border-color: deeppink;margin-right: 5px;" data-status="CONSIDERING">Considering</button>
+			</div>
+			<div class="noti-badge">
+				<span class="badge bg-primary badge-number candidate-badge  rounded-5" id="pendingCount">0</span>
+				<button type="button" class="btn btn-arrow-right btn-custom-size changeActive modify text-light" th:classappend="${actionStage == 'PENDING'} ? 'active' : ''" style="border-color: deeppink;" data-status="PENDING">Pending</button>
+			</div>
+			<div class="noti-badge">
+				<span class="badge bg-primary badge-number candidate-badge  rounded-5" id="passedCount">0</span>
+				<button type="button" class="btn btn-arrow-right btn-custom-size changeActive modify text-light" th:classappend="${actionStage == 'PASSED'} ? 'active' : ''" style="border-color: deeppink;" data-status="PASSED">Pass</button>
+			</div>
+
+
+		</div>
+	</div>
+	<div class="container">
+		<div class="row">
+			<!--<div class="col-12" style="text-align: center;">
+
+				<h5 style="font-size:20px;"> <b id="candidateCount" th:text="${candidateCount}"></b> candidates applied <b id="vacancyNameElement" th:text="${vacancyName}"></b> position</h5>
+
+			</div>-->
+		</div>
+		<input type="hidden" name="vacancyId" th:value="${vacancyId}">
+		<input type="hidden" name="actionStage" th:value="${actionStage}">
+	</div>
+	<div class="container">
+	<section class="section">
+   
+			<!--modal box start-->
+      <div class="modal fade"  id="nextStageModal"  tabindex="-1" role="dialog" aria-labelledby="nextStageModalLabel" aria-hidden="true" data-id="" data-stage="">
+        <div class="modal-dialog modal-dialog-centered">    
+          <div class="confirm modal-content">
+            <h1>Confirm your action</h1>
+            <p>
+               Are you sure you want to proceed to change stage?
+            </p>
+            <form>
+			      <button class="btn btn-danger" data-bs-dismiss="modal" aria-label="Close" id="nextStageCancel">Cancel</button>
+			      <button type="button" class="btn btn-primary" onclick="stageForm()">Confirm</button>
+			</form>
+           
+          </div>
+        </div>
+      </div>
+      <!-- End Modal-->
+ 
+		<!--modal box start-->
+      <div class="modal fade" id="cancelModal"  tabindex="-1" role="dialog" aria-labelledby="cancelModalLabel" aria-hidden="true" data-id="" data-stage="">
+        <div class="modal-dialog modal-dialog-centered">
+          <div class="confirm modal-content">
+            <i class="fa-solid fa-rectangle-xmark fa-2xl close" data-bs-dismiss="modal" aria-label="Close"></i>
+            <h1>Confirm your action</h1><br>
+         
+            <p>
+            Who <strong>Cancel</strong> the interview?
+            </p>
+           <form>
+			 	  <button type="button" class="btn btn-primary" onclick="candidateCancelForm()">Candidate Cancel</button>
+			  <button type="button" class="btn btn-primary" onclick="cancelForm()">Interviewer Cancel</button>
+		   </form>
+          
+          </div>
+        </div>
+      </div>
+      <!-- End Modal-->
+		<h1></h1>
+		<table id="example" class="display"  style="width: 100%;">
+
+			<thead>
+
+			<tr>
+				<th scope="col">#</th>
+				<th scope="col">Name</th>
+				<th scope="col">Main Technical</th>
+				<th scope="col" id="technical">Language Skills</th>
+				<th scope="col" id="experiences">Experiences</th>
+				<th scope="col" id="downloadTh">Interview Date</th>
+				<th scope="col" id="interviewStage">Interview Stage</th>
+				<th scope="col" id="nextStage">Stage Change</th>
+				<th scope="col" id="salary">Salary</th>
+				<th scope="col" id="joinDate">JoinDate</th>
+				<th scope="col">SeeMore</th>
+			</tr>
+			</thead>
+
+			<tbody>
+
+			</tbody>
+		</table>
+	</section>
+	</div>
+	
+	<!-- End #main -->
+</main>
+	
+<div th:replace="side-bar :: footer"></div>
+
+<script>
+	function refreshCandidatesData() {
+		const vacancyIdInput = document.querySelector("input[name='vacancyId']");
+
+		if (!vacancyIdInput) {
+			console.warn("No input element with name 'vacancyId' found on the page.");
+			return;
+		}
+
+		const vacancyId = vacancyIdInput.value;
+		const statusList = ["CONSIDERING", "PENDING", "PASSED", "CANCEL", "NOTINTERVIEW"];
+		const statusElementMap = {
+
+			"CONSIDERING": 'consideringCount',
+			"PENDING": 'pendingCount',
+			"PASSED": 'passedCount',
+			"CANCEL": 'cancelCount',
+			"NOTINTERVIEW": 'notInterviewCount'
+		};
+
+		const promises = statusList.map(status => {
+			const url = `/countsCandidate/${vacancyId}/${status}`;
+
+			return fetch(url)
+					.then(response => {
+						if (!response.ok) {
+							throw new Error(`HTTP error for status ${status}! Status: ${response.status}`);
+						}
+						return response.json();
+					});
+		});
+
+		Promise.all(promises)
+				.then(results => {
+					results.forEach((candidate, index) => {
+						const status = statusList[index];
+						const elementId = statusElementMap[status];
+						document.getElementById(elementId).textContent = candidate.length;
+					});
+				})
+				.catch(error => {
+					console.error("Failed to fetch candidate data:", error);
+				});
+	}
+
+	document.addEventListener('DOMContentLoaded', function() {
+		refreshCandidatesData(); // Call the function when the document content is loaded
+
+	});
+
+	$(document).ready(function () {
+		//alert message
+		iziToast.settings({
+			timeout: 3000,
+			resetOnHover: true,
+			transitionIn: 'flipInX',
+			transitionOut: 'flipOutX',
+			position: 'topCenter',
+			onOpen: function() {
+				console.log('callback abriu!');
+			},
+			onClose: function() {
+				console.log("callback fechou!");
+			}
+		});
+		
+		$('#nextStageCancel').click(function(event){ event.preventDefault(); return false;});
+        
+        $('#cancelNo').click(function(event){ event.preventDefault(); return false;});
+        
+		document.addEventListener("click", function (event) {
+			// Check if the clicked element has the "btn" and "btn-arrow-right" classes
+			if (
+					event.target.classList.contains("btn") &&
+					event.target.classList.contains("btn-arrow-right")
+			) {
+				// Remove the "active" class from all buttons
+				const buttons = document.querySelectorAll(".btn.btn-arrow-right");
+				buttons.forEach((btn) => btn.classList.remove("active"));
+
+				// Add the "active" class to the clicked button
+				event.target.classList.add("active");
+			}
+		});
+
+		$('#technical').hide();
+		$('#salary').hide();
+		$('#experiences').hide();
+		$('#joinDate').hide();
+		$('#downloadButton').hide();
+		$('#downloadTh').show();
+		$('#nextStage').show();
+		$('#interviewStage').show();
+		let vacancyIdInput = document.querySelector("input[name='vacancyId']");
+		let actionStageInput = document.querySelector("input[name='actionStage']");
+		let vacancyId = vacancyIdInput.value;
+		let actionStage = actionStageInput.value;
+		var table = $('#example').DataTable({
+	
+			"serverSide": true,
+			"processing": true,
+			"ajax": {
+				"url":'/candidatePage/' + vacancyId + '/'+actionStage,
+				"type": "GET",
+				"error": function(xhr, textStatus, error) {
+					// Log the error to console for debugging
+					console.error("Ajax error:", textStatus, error);
+				}
+
+			},
+			"columns": [
+				{ name: "#", data: "id", targets: 0 },
+				{ name: "Name", data: "name", targets: 1 ,className: "smallColumn", },
+				{ name: "Main Technical", data: "mainTechnical", targets: 2},
+				{ name: "Language Skills", data: "language", targets: 3},
+				{
+					data: "experiences",
+					name: "Experiences",
+					className: "experience",
+					targets: 4,
+					render: function(data, type, row) {
+						return data + (data > 1 ? " years" : " year");
+					}
+				},
+
+				{
+				    data: "interviewHistories",
+					name: "interviewHistories",
+				    targets: 5,
+				
+				    render: function (data, type, row) {
+				        if (row.interviewHistories && row.interviewHistories.length > 0) {
+				            var lastInterviewHistory = row.interviewHistories[row.interviewHistories.length - 1];
+				            return lastInterviewHistory.date;
+				        }
+				        return '-';
+				    },
+
+					orderable: true
+				},
+
+				{
+				    data: "interviewHistories",
+				    targets: 6,
+				    render: function (data, type, row) {
+				        // Check if interviewHistories exists and has at least one item
+				        if (row.interviewHistories && row.interviewHistories.length > 0) {
+				            // Get the last interviewHistory
+				            var lastInterviewHistory = row.interviewHistories[row.interviewHistories.length - 1];
+				            
+				            // Return the value you're interested in from lastInterviewHistory, assuming it's the "action"
+				            return lastInterviewHistory.action;
+				        }
+				        return '-';  // Return an empty string if there are no interviewHistories
+				    },
+					orderable: true
+				},
+
+				{
+					data: "id",
+					targets: 7, className: "stageColumn",
+					render: function (data, type, row) {
+						var stage = row.cvStatus;
+						var email=row.email;
+						var vacancyId = [[ ${vacancyId}]];
+
+						if (stage === "CANCEL") {
+							return '<button type="button" class="btn btn-primary btn-sm rounded-pill"  data-bs-toggle="modal" data-bs-target="#nextStageModal" onclick="nextStageModal(\'' + data + '\', \'' + stage + '\')">ReOffer</button>';
+						} else if (stage === "CONSIDERING") {
+							return '<button type="button" class="btn btn-primary btn-sm rounded-pill" data-bs-toggle="modal" data-bs-target="#nextStageModal" onclick="nextStageModal(\'' + data + '\', \'' + stage + '\')">Pending</button>&nbsp;<button type="button" class="btn btn-danger btn-sm rounded-pill" data-bs-toggle="modal" data-bs-target="#cancelModal" onclick="cancelModal(\'' + data + '\', \'' + stage + '\')">Cancel</button>';
+						} else if (stage === "PENDING") {
+							return '<button type="button" class="btn btn-primary btn-sm rounded-pill" data-bs-toggle="modal" data-bs-target="#nextStageModal" onclick="nextStageModal(\'' + data + '\', \'' + stage + '\')">&nbsp;Pass&nbsp;</button>&nbsp;<button type="button" class="btn btn-danger btn-sm rounded-pill" data-bs-toggle="modal" data-bs-target="#cancelModal" onclick="cancelModal(\'' + data + '\', \'' + stage + '\')">Cancel</button>';
+						} else {
+							return '<button type="button" class="btn btn-primary btn-sm rounded-pill"  data-bs-toggle="modal" data-bs-target="#nextStageModal" onclick="nextStageModal(\'' + data + '\', \'' + stage + '\')">ReOffer</button> '; // Handle other cases if needed
+						}
+					},
+					sortable: false,
+				},
+			
+				{ name: "Salary", data: "wages", targets: 8 },
+				{ name: "JoinDate", data: "joinDate", targets: 9 },
+				{
+					data: "id",
+					targets: 10,
+					render: function (data, type, row) {
+						return '&nbsp;<a href="/interview/seemorecandidate/' + row.id + '" style="text-decoration: none;">SeeMore<a>';
+					},
+					sortable: false
+				},
+
+				// ... other columns ...
+			],
+			"rowCallback": function (row, data) {
+				var showTd = $(row).find('td:eq(5)');
+				var interviewTd=$(row).find('td:eq(6)');
+				var technicalTd = $(row).find('td:eq(3)');
+				var experiencesTd=$(row).find('td:eq(4)');
+				var salaryTd = $(row).find('td:eq(8)');
+				var joinDateTd=$(row).find('td:eq(9)');
+				var stageTd = $(row).find('td:eq(7)');
+				var status = data.cvStatus;
+
+
+				if (status === "PENDING") {
+					interviewTd.show();
+					showTd.show();
+					salaryTd.hide();
+					joinDateTd.hide();
+					technicalTd.hide();
+					experiencesTd.hide();
+					$('#technical').hide();
+					$('#salary').hide();
+					$('#experiences').hide();
+					$('#joinDate').hide();
+					$('#downloadButton').hide();
+					$('#downloadTh').show();
+					$('#nextStage').show();
+					$('#interviewStage').show();
+
+				}
+			 else if(status === "CONSIDERING"){
+					interviewTd.show();
+					showTd.show();
+					salaryTd.hide();
+					joinDateTd.hide();
+					technicalTd.hide();
+					experiencesTd.hide();
+					$('#technical').hide();
+					$('#salary').hide();
+					$('#experiences').hide();
+					$('#joinDate').hide();
+					$('#downloadButton').hide();
+					$('#downloadTh').show();
+					$('#nextStage').show();
+					$('#interviewStage').show();
+				}else if(status==="PASSED"){
+					interviewTd.show();
+					salaryTd.show();
+					joinDateTd.show();
+					showTd.hide();
+					stageTd.hide();
+					technicalTd.hide();
+					experiencesTd.hide();
+					$('#salary').show();
+					$('#nextStage').hide();
+					$('#technical').hide();
+					$('#experiences').hide();
+
+				}else{
+					interviewTd.show();
+					stageTd.hide();
+					salaryTd.hide();
+					joinDateTd.hide();
+					technicalTd.hide();
+					experiencesTd.hide();
+					$('#nextStage').hide();
+					$('#technical').hide();
+					$('#salary').hide();
+					$('#joinDate').hide();
+					$('#experiences').hide();
+			
+				}
+			},
+
+
+		});
+
+		// Function to update the count column
+		function updateCountColumn() {
+			var info = table.page.info();
+			var currentPage = info.page;
+			var recordsPerPage = info.length;
+			var startCount = currentPage * recordsPerPage + 1;
+
+			table.rows().every(function (rowIdx) {
+				var currentCount = startCount + rowIdx;
+				this.cell(rowIdx, 0).data(currentCount);
+			});
+		}
+
+		// Initial count update
+		updateCountColumn();
+
+		// Button onclick event
+		$('.changeActive').click(function () {
+
+			var status = $(this).data('status');
+			var url = '/candidatePage/' + vacancyId + '/' + status;
+			table.ajax.url(url).load();
+
+			if (status === "PASSED") {
+				$('#downloadTh').hide();
+				$('#nextStage').hide();
+				$('#downloadButton').hide();
+				$('#interviewStage').show();
+				$('#technical').hide();
+				$('#experiences').hide();
+				$('#salary').show();
+				$('#joinDate').show();
+			}else if(status==="NOTINTERVIEW")  {
+				$('#downloadTh').show();
+				$('#nextStage').hide();
+				$('#downloadButton').show();
+				$('#interviewStage').show();
+		
+				$('#technical').hide();
+				$('#salary').hide();
+				$('#joinDate').hide();
+				$('#experiences').hide();
+			}
+			else {
+				$('#downloadTh').show();
+				$('#nextStage').show();
+				$('#interviewStage').show();
+				$('#technical').hide();
+				$('#salary').hide();
+				$('#joinDate').hide();
+				$('#experiences').hide();
+			}
+
+		});
+
+		table.on('draw.dt', function () {
+			updateCountColumn();
+		});
+	});
+
+
+		//Stage Change script
+	function nextStageModal(data, stage) {
+	    document.getElementById('nextStageModal').dataset.id = data;
+	    document.getElementById('nextStageModal').dataset.stage = stage;
+	}
+
+	function stageForm() {
+	    let stage = document.getElementById('nextStageModal').dataset.stage;
+	    let rowId = document.getElementById('nextStageModal').dataset.id;
+	    var vacancyId = [[ ${vacancyId}]]; // replace with your actual vacancyId
+	    var url;
+	if(stage === "CONSIDERING"){
+	        url = '/interviewer/actionChange/PENDING/' + rowId + '/' + vacancyId;
+	    } else if(stage === "PENDING"){
+	        url = '/interviewer/actionChange/PASSED/' + rowId + '/' + vacancyId;
+
+			saveOfferMailNotification(rowId,vacancyId);
+
+	    } else {
+	        url = '/interviewer/CANCEL/' + rowId + '/' + vacancyId;
+	    }
+
+		iziToast.settings({
+			function(instance, toast) {
+				instance.hide({
+					transitionOut: 'fadeOutUp'
+				})}
+		});
+	    $.ajax({
+	        url: url,
+	        type: 'GET',
+	        contentType: 'application/json',
+	        success: function (data) {
+				iziToast.success({message: 'Successfully Change this candidates.' });
+	            var nextStageModal = document.getElementById('nextStageModal');
+			    var modalInstance = bootstrap.Modal.getOrCreateInstance(nextStageModal);
+			    modalInstance.hide();
+			    var newUrl = '/candidatePage/' + vacancyId + '/'+stage;
+		        var table = $('#example').DataTable();
+		        table.ajax.url(newUrl).load();
+				refreshCandidatesData();
+
+	        },
+	        error: function (request, status, error) {
+	            alert('Error: ', error);
+	        }
+	    });
+	}
+
+	function cancelModal(data, stage) {
+	    document.getElementById('cancelModal').dataset.id = data;
+	    document.getElementById('cancelModal').dataset.stage = stage;
+	}
+
+	function cancelForm() {
+		// Get the values from the input fields
+  		let stage = document.getElementById('cancelModal').dataset.stage;
+		let id = document.getElementById('cancelModal').dataset.id;
+		var vacancyId =[[ ${vacancyId}]];
+
+		// Here you would typically make a request to the server
+		// with the values of the input fields.
+		
+		let url =  '/interviewer/CANCEL/' + id + '/' + vacancyId;
+		iziToast.settings({
+			function(instance, toast) {
+				instance.hide({
+					transitionOut: 'fadeOutUp'
+				})}
+		});
+		  $.ajax({
+		        url: url,
+		        type: 'GET',
+		        contentType: 'application/json',
+		        success: function (data) {
+			iziToast.success({message: 'Successfully Change this candidates.' });
+		    var modalElement = document.getElementById('cancelModal');
+		    var modalInstance = bootstrap.Modal.getOrCreateInstance(modalElement);
+		    modalInstance.hide();
+		    var newUrl = '/candidatePage/' + vacancyId + '/'+stage;
+	        var table = $('#example').DataTable();
+	        table.ajax.url(newUrl).load();
+					refreshCandidatesData();
+	        
+		}, error: function (request, status, error) {
+            console.log('Error: ', error);
+        }
+    });
+}
+	function candidateCancelForm() {
+		// Get the values from the input fields
+		let stage = document.getElementById('cancelModal').dataset.stage;
+		let id = document.getElementById('cancelModal').dataset.id;
+		var vacancyId =[[ ${vacancyId}]];
+
+		// Here you would typically make a request to the server
+		// with the values of the input fields.
+
+		let url =  '/interviewer/NOTINTERVIEW/' + id + '/' + vacancyId;
+		iziToast.settings({
+			function(instance, toast) {
+				instance.hide({
+					transitionOut: 'fadeOutUp'
+				})}
+		});
+		$.ajax({
+			url: url,
+			type: 'GET',
+			contentType: 'application/json',
+			success: function (data) {
+				iziToast.success({message: 'Successfully Change this candidates.' });
+				var modalElement = document.getElementById('cancelModal');
+				var modalInstance = bootstrap.Modal.getOrCreateInstance(modalElement);
+				modalInstance.hide();
+				var newUrl = '/candidatePage/' + vacancyId + '/'+stage;
+				var table = $('#example').DataTable();
+				table.ajax.url(newUrl).load();
+				refreshCandidatesData();
+
+			}, error: function (request, status, error) {
+				alert('Error: ', error);
+			}
+		});
+	}
+
+
+
+</script>
+
+<script type="text/javascript" src="https://code.jquery.com/jquery-3.5.1.js"></script>
+<script src="/assets/js/jquery.dataTables.min.js" type="text/javascript"></script>
+<script src="/assets/js/jquery.spring-friendly.js" type="text/javascript"></script>
+<div th:replace="side-bar :: scripts"></div>
+</body>
+</html>

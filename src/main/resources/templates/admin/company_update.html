@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head>
+  <!-- Favicons -->
+  <link rel="shortcut icon" type="icon/image" href="https://acedatasystems.com/wp-content/themes/acedata/shared/images/fav/favicon.ico">
+
+  <div th:replace="side-bar :: head"></div>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/izitoast/1.4.0/css/iziToast.min.css" rel="stylesheet">
+  <script src="https://code.jquery.com/jquery-3.7.0.min.js"
+          integrity="sha256-2Pmvv0kuTBOenSvLm6bvfBSSHrUJ+3A7x6P5Ebd07/g=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/izitoast/1.4.0/js/iziToast.min.js"></script>
+<script th:src="@{/assets/js/company_update.js}"></script>
+
+<style>
+.dep input:focus {
+outline: none;
+}
+ 
+</style>
+</head>
+
+<body>
+<div th:replace="side-bar :: header"></div>
+<div th:replace="side-bar :: sidebar"></div>
+
+
+<main id="main" class="main">
+  <!-- End #main -->
+  <div class="pagetitle">
+      <h1>Update Company</h1>
+      <nav>
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item">Home</li>
+          <li class="breadcrumb-item active">Update Company</li>
+        </ol>
+      </nav>
+    </div><!-- End Page Title -->
+
+    <section class="section dashboard">
+      <div class="body99">
+
+        <!--start of job offer form -->
+
+
+        <div class="body99">
+          <div class="card">
+            <div class="company-card-body">
+              <h5 class="card-title">Update Company Details</h5>
+              <!-- Floating Labels Form -->
+              <form class="row g-3" th:action="@{/system/updatecompany}" th:object="${updateCompanyDto}" method="post">
+                <div class="col-md-12">
+                  <div class="form-floating">
+                    <input type="text" class="form-control" name="name" id="name" placeholder="Position" th:field="*{name}" readonly="readonly">
+                    <label for="name">Company Name</label>
+                  </div>
+                </div>
+                <div class="col-md-12">
+                  <div class="form-floating">
+                    <input type="text" class="form-control" name="email" id="email" placeholder="Posts" th:field="*{email}">
+                    <label for="email">Email</label>
+                  </div>
+                </div>
+
+                <div class="col-md-12">
+                  <div class="form-floating">
+                    <input type="number" class="form-control" name="phone" id="phone" placeholder="-" th:field="*{phone}">
+                    <label for="phone">Phone</label>
+                  </div>
+                </div>
+
+                <div class="col-md-12">
+                  <div class="form-floating">
+                    <input type="text" class="form-control" name="location" id="location" placeholder="-" th:field="*{location}">
+                    <label for="location">Location</label>
+                  </div>
+                </div>
+
+                <div class="col-12">
+                  <div class="form-floating" id="companyAbout">
+                    <textarea class="form-control" placeholder="Address" name="about" id="about"
+                      style="height: 100px;" th:field="*{about}"></textarea>
+                    <label for="about">Company About</label>
+                  </div>
+                </div>
+                
+                <div class="col-md-11 m-auto row border border-secondary-subtle mt-1 rounded" id="departmentList">
+                  <div th:each="department : *{departments}" class="dep col-11 rounded m-auto row mt-1 bg-secondary-subtle" th:id="'div'+${department.id}">
+                    <div class="col-8 m-auto">
+                      <input type="text" th:value="${department.name}" class="col-12 m-auto mt-1 mb-1 border-0 bg-secondary-subtle" th:id="'department'+${department.id}" readonly>
+                    </div>
+                    <div class="col-2 m-auto">
+                      <button class="btn btn-primary btn-block editBtn" data-bs-toggle="modal" th:data-bs-target="'#editModal' + ${department.id}"><i class="bi bi-pencil"></i></button>
+                    </div>
+                    <div class="col-2 m-auto">
+                      <button class="btn btn-danger btn-block deleteBtn" data-bs-toggle="modal" th:data-bs-target="'#deleteModal' + ${department.id}"><i class="bi bi-trash3"></i></button>
+                    </div>
+                    
+                  <div class="modal fade" th:id="'editModal' + ${department.id}" tabindex="-1">
+                <div class="modal-dialog modal-dialog-centered">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h5 class="modal-title">Edit Department Name</h5>
+                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                      <input type="text" th:value="${department.name}" class="col-12 m-auto p-3 rounded border-0 bg-info-subtle">
+                      <input type="hidden" th:value="${department.id}" class="editId">
+                    </div>
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                      <button type="button" class="btn btn-primary saveEditBtn">Save</button>
+                    </div>
+                  </div>
+                </div>
+              </div><!-- End Vertically centered Modal-->
+              <div class="modal fade" th:id="'deleteModal' + ${department.id}" tabindex="-1">
+                <div class="modal-dialog modal-dialog-centered">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h5 class="modal-title">Are you sure you want to Delete this?</h5>
+                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                      <input type="hidden" th:value="${department.id}" class="editId">
+                      <input type="text" th:value="${department.name}" readonly class="col-12 m-auto p-3 rounded border-0 bg-warning-subtle text-center">
+                    </div>
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                      <button type="button" class="btn btn-warning deleteBtn">Delete</button>
+                    </div>
+                  </div>
+                </div>
+              </div><!-- End Vertically centered Modal-->
+               </div>
+                </div>
+         
+                <div class="col-12">
+                  <div class="form-floating" id="companyDepartment">
+                    <textarea class="form-control" onInput="handleInput(event)" name="department" placeholder="Address"
+                      id="department" style="height: 150px;" ></textarea>
+                    <label for="department">Add Departments</label>
+                  </div>
+                </div>
+                
+                
+              
+                <div class="col-md-12">
+                  <div class="form-floating">
+                    <input type="text" class="form-control" name="link" id="websiteLink" placeholder="-" th:field="*{link}">
+                    <label for="websiteLink">Company Website Link</label>
+                  </div>
+                </div>
+
+                <div class="text-center">
+                  <input type="hidden" th:value="*{id}" name="companyId"/>
+                  <button type="submit" class="btn btn-primary">Save</button>
+                  <a class="btn btn-secondary" id="back" th:href="@{/system/companydetails/{id}(id=${updateCompanyDto.id})}">Back</a>
+                </div>
+              </form><!-- End floating Labels Form -->
+              <div id="companyMessage" style="display:none;" th:text="${session.companyMessage}"></div>
+              
+            </div>
+          </div>
+        </div>
+        
+      </div>
+              
+    </section>
+  <!-- End #main -->
+</main>
+
+<div th:replace="side-bar :: footer"></div>
+<script>
+    let previousLength = 0;
+
+    const handleInput = (event) => {
+      const bullet = "\u2022";
+      const newLength = event.target.value.length;
+      const characterCode = event.target.value.substr(-1).charCodeAt(0);
+
+      if (newLength > previousLength) {
+        if (characterCode === 10) {
+          event.target.value = `${event.target.value}${bullet} `;
+        } else if (newLength === 1) {
+          event.target.value = `${bullet} ${event.target.value}`;
+        }
+      }
+
+      previousLength = newLength;
+    }
+  
+    
+   
+  </script>
+<div th:replace="side-bar :: scripts"></div>
+</body>
+</html>

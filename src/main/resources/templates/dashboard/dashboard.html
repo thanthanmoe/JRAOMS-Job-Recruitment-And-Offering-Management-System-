@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head>
+  <!-- Favicons -->
+  <link rel="shortcut icon" type="icon/image" href="https://acedatasystems.com/wp-content/themes/acedata/shared/images/fav/favicon.ico">
+
+  <div th:replace="side-bar :: head"></div>
+
+  <script src="/assets/js/dashboard.js"></script>
+
+</head>
+
+<body>
+<div th:replace="side-bar :: header"></div>
+<div th:replace="side-bar :: sidebar"></div>
+
+<main id="main" class="main">
+
+    <div class="pagetitle">
+      <h1>Dashboard</h1>
+      <nav>
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item">Home</li>
+          <li class="breadcrumb-item active">Dashboard</li>
+        </ol>
+      </nav>
+    </div><!-- End Page Title -->
+
+    <section class="section dashboard">
+      <div class="row">
+
+        <!-- Left side columns -->
+        <div class="col-lg-12">
+          <div class="row">
+
+            <!-- Sales Card -->
+            <div class="col-xxl-4 col-md-4">
+              <div class="card info-card sales-card">
+
+                <div class="card-body">
+                  <h5 class="card-title">Active Jobs</h5>
+
+                  <div class="d-flex align-items-center">
+                    <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                      <i class="bi bi-check-circle-fill text-success"></i>
+                    </div>
+
+                    <!--Show total active job-->
+                    <div id="active-job" class="ps-3">
+                      <!--<span class="text-success small pt-1 fw-bold">12%</span> <span class="text-muted small pt-2 ps-1">increase</span>-->
+                    </div>
+
+                  </div>
+                </div>
+
+              </div>
+            </div><!-- End Sales Card -->
+
+            <!-- Revenue Card -->
+            <div class="col-xxl-4 col-md-4">
+              <div class="card info-card revenue-card">
+
+                <div class="card-body">
+                  <h5 class="card-title">Inactive Jobs</h5>
+
+                  <div class="d-flex align-items-center">
+                    <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                      <i class="bi bi-x-circle-fill text-danger"></i>
+                    </div>
+
+                    <!--Show total inactive job-->
+                    <div id="inactive-job" class="ps-3">
+
+                    </div>
+
+                  </div>
+                </div>
+
+              </div>
+            </div><!-- End Revenue Card -->
+
+            <!-- Customers Card -->
+            <div class="col-xxl-4 col-md-4">
+              <div class="card info-card revenue-card">
+
+                <div class="card-body">
+                  <h5 class="card-title">Candidates</h5>
+
+                  <div class="d-flex align-items-center">
+                    <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                      <i class="bi bi-person-check"></i>
+                    </div>
+
+                    <!--Show total inactive job-->
+                    <div id="total-candidate" class="ps-3">
+                      <span class="text-danger small pt-1 fw-bold">12%</span> <span class="text-muted small pt-2 ps-1">decrease</span>
+                    </div>
+
+                  </div>
+
+                </div>
+              </div>
+
+            </div><!-- End Customers Card -->
+
+          </div>
+        </div><!-- End Left side columns -->
+        <div class="col-lg-12">
+          <div class="card" >
+            <div class="card-body"  style="height: 600px;">
+              <h5 class="card-title">Candidate Monthly Chart</h5>
+
+
+              <!-- Line Chart -->
+              <!-- Line Chart -->
+              <canvas id="lineChart" style="max-height: 500px;"></canvas>
+
+              <script th:inline="javascript">
+                /*<![CDATA[*/
+
+                let labels = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+
+                // Assuming candidateData is sorted by year and month
+                let rawData = /*[[${candidateData}]]*/ [];
+
+                let uniqueYears = [...new Set(rawData.map(item => item.year))];
+
+                let datasets = uniqueYears.map(year => {
+                  let monthlyData = Array(12).fill(0);  // Initialize all months to 0.
+
+                  rawData.filter(item => item.year === year).forEach(item => {
+                    monthlyData[item.month - 1] = item.count;  // JS arrays are 0-indexed.
+                  });
+                  function getRandomColor() {
+                    var r = Math.floor(Math.random() * 256);          // Random between 0-255
+                    var g = Math.floor(Math.random() * 256);          // Random between 0-255
+                    var b = Math.floor(Math.random() * 256);          // Random between 0-255
+                    return 'rgb(' + r + ',' + g + ',' + b + ')';      // Collect all to a string
+                  }
+
+                  return {
+                    label: year.toString(),
+                    data: monthlyData,
+                    borderColor: getRandomColor(),
+                    backgroundColor: getRandomColor(0.2),
+                    fill: false,
+                  };
+                });
+
+                document.addEventListener("DOMContentLoaded", function() {
+                  new Chart(document.querySelector('#lineChart'), {
+                    type: 'line',
+                    data: {
+                      labels: labels,
+                      datasets: datasets
+                    },
+                    options: {
+                      responsive: true,
+                      maintainAspectRatio: false,
+
+                      scales: {
+                        y: {
+                          beginAtZero: true,
+                          title: {
+                            display: true,
+                            text: 'Candidates'   // This is the label for y-axis
+                          }
+                        },
+                        x: {
+                          title: {
+                            display: true,
+                            text: 'Monthly'   // This is the label for x-axis
+                          }
+                        }
+                      }
+                    }
+                  });
+                });
+
+                /*]]>*/
+              </script>
+
+
+              <!-- End Pie CHart -->
+
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+  </main><!-- End #main -->
+
+<!--Status for candidate,active job and inactive job-->
+
+<div th:replace="side-bar :: footer"></div>
+<div th:replace="side-bar :: scripts"></div>
+</body>
+</html>

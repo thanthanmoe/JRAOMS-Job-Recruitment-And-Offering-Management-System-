@@ -1,0 +1,105 @@
+USE black_jack;
+
+DELIMITER //
+
+-- View
+CREATE OR REPLACE VIEW `interview_process` AS
+    SELECT
+        `v`.`id` AS `id`,
+        `v`.`position` AS `position`,
+        `v`.`start_date` AS `start_date`,
+        `v`.`end_date` AS `end_date`,
+        COUNT(`c`.`id`) AS `total_candidates`,
+        SUM((CASE
+            WHEN (`c`.`cv_status` = 'considering') THEN 1
+            ELSE 0
+        END)) AS `considering`,
+        SUM((CASE
+            WHEN (`c`.`cv_status` = 'view') THEN 1
+            ELSE 0
+        END)) AS `view`,
+        -- ... (other SUM cases) ...
+        SUM((CASE
+            WHEN (`c`.`cv_status` IN ('cancel' , 'pending', 'passed')) THEN 1
+            ELSE 0
+        END)) AS `interview_candidate`
+    FROM
+        (`vacancy` `v`
+        LEFT JOIN `candidate` `c` ON ((`c`.`vacancy_id` = `v`.`id`)))
+    GROUP BY `v`.`id` , `v`.`position` , `v`.`start_date` , `v`.`end_date`;
+
+CREATE PROCEDURE `get_all_candidates_and_vacancies`()
+BEGIN
+    SELECT c.*, v.position FROM candidate c
+    JOIN vacancy v ON c.vacancy_id = v.id;
+END //
+
+CREATE PROCEDURE `get_countByVacancy_id`()
+BEGIN
+    SELECT COUNT(*) as count, v.position FROM candidate c
+    JOIN vacancy v ON c.vacancy_id = v.id
+    GROUP BY c.vacancy_id;
+END //
+
+CREATE PROCEDURE `GetInterviewerNotificationsByUser`(IN userId INT)
+BEGIN
+    SELECT n.*
+    FROM interviewer_notification n
+    LEFT JOIN interviewer_notification_user nu ON n.id = nu.interviewer_notification_id AND nu.user_id = userId
+    WHERE nu.interviewer_notification_id IS NULL;
+END //
+
+CREATE PROCEDURE `GetOfferMailNotificationsByUser`(IN userId INT)
+BEGIN
+    SELECT n.*
+    FROM offer_mail_notification n
+    LEFT JOIN offer_mail_notification_user nu ON n.id = nu.offer_mail_notification_id AND nu.user_id = userId
+    WHERE nu.offer_mail_notification_id IS NULL;
+END //
+
+CREATE PROCEDURE `GetNotificationByUserAndPost`(IN userId INT, IN vacancyId INT)
+BEGIN
+    SELECT n.*
+    FROM notification n
+    LEFT JOIN notification_user nu ON n.id = nu.notification_id AND nu.user_id = userId
+    WHERE nu.notification_id IS NULL
+    AND n.vacancy_id = vacancyId;
+END //
+
+CREATE PROCEDURE `GetNotificationsByUser`(IN userId INT)
+BEGIN
+    SELECT n.*
+    FROM notification n
+    LEFT JOIN notification_user nu ON n.id = nu.notification_id AND nu.user_id = userId
+    WHERE nu.notification_id IS NULL;
+END //
+
+CREATE PROCEDURE `sp_getCandidatesAndVacancies`(IN startDate DATE, IN endDate DATE)
+BEGIN
+    SELECT c.id, c.name, c.date, c.cv_status, c.dob, c.gender, c.phone, c.email, c.degree, c.technical, c.language, v.position, c.level, c.main_technical, c.experiences, c.salary
+    FROM candidate c
+    INNER JOIN vacancy v ON c.vacancy_id = v.id
+    WHERE c.date BETWEEN startDate AND endDate;
+END //
+
+CREATE PROCEDURE `sp_getCandidatesByStatus`(IN statusParam VARCHAR(255))
+BEGIN
+    SELECT
+        c.id, c.name, c.date, c.cv_status, c.dob, c.gender, c.phone, c.email, c.degree, c.technical,
+        c.language, v.position, c.level, c.main_technical, c.experiences, c.salary,
+        GROUP_CONCAT(DISTINCT ih.date) as interview_date
+    FROM
+        candidate AS c
+    JOIN
+        vacancy AS v ON c.vacancy_id = v.id
+    LEFT JOIN
+        interview_history as ih ON ih.candidate_id=c.id
+    WHERE
+        c.cv_status = statusParam
+    GROUP BY
+        c.id;
+END //
+
+-- ... (other procedures) ...
+
+DELIMITER ;

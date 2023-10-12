@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head>
+  <!-- Favicons -->
+  <link rel="shortcut icon" type="icon/image" href="https://acedatasystems.com/wp-content/themes/acedata/shared/images/fav/favicon.ico">
+
+  <div th:replace="side-bar :: head"></div>
+  <div th:replace="side-bar :: customforregisteruser"></div>
+  <div th:replace="side-bar :: popupCdn"></div>
+  <link rel="stylesheet" href="/assets/css/user_update.css">
+  <script src="/assets/js/user_update.js"></script>
+<style>
+
+</style>
+</head>
+
+<body>
+<div th:replace="side-bar :: header"></div>
+<div th:replace="side-bar :: sidebar"></div>
+
+<main id="main" class="main">
+
+    <div class="pagetitle">
+      <h1>Edit</h1>
+      <nav>
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item">Home</li>
+          <li class="breadcrumb-item"><a th:href="@{/system/manageusers}" class="text-decoration-none">Manage Users</a></li>
+          <li class="breadcrumb-item active">Edit User</li>
+        </ol>
+      </nav>
+    </div><!-- End Page Title -->
+
+    <section class="section dashboard">
+      <div class="row">
+        <div class="">
+          <div class="form m-auto col-5">
+           
+            <div class="subtitle">Edit User's info</div>
+
+            <form th:action="@{/system/usereditinfo}" th:object="${userBean}" method="post">
+              <div class="input-container ic1">
+                <input id="name" name="name" class="input" type="text" placeholder=" " th:field="*{name}" required />
+                <div class="cut"></div>
+                <label for="name" class="placeholder55">Enter your Name</label>
+                <div id="nameError" class="error"></div>
+              </div>
+
+              <div class="input-container ic1">
+                <input id="email" name="email" class="input" type="email" placeholder=" " th:field="*{email}" readonly />
+                <div class="cut"></div>
+                <label for="email" class="placeholder55">Email</label>
+                <div id="emailError" class="error"></div>
+              </div>
+
+              <div class="input-container ic1">
+                <select id="role" name="role" class="input" required style="font-size: 16px;">
+                  <option value="SENIOR" th:selected="*{role} == SENIOR">Senior HR</option>
+                  <option value="JUNIOR" th:selected="*{role} == JUNIOR">Junior HR</option>
+                  <option value="INTERVIEWER" th:selected="*{role} == INTERVIEWER">Interviewer</option>
+                </select>
+                <div class="cut"></div>
+                <label for="role" class="placeholder55">Enter your Role</label>
+                <div id="roleError" class="error"></div>
+              </div>
+
+              <div class="input-container ic1">
+                <select id="department" name="departmentId" class="input" required style="font-size: 16px;">
+                  <option value="" disabled>Select your Department</option>
+                   <option th:value="${department.id}"  selected>[[${department.name}]]</option>
+                </select>
+                <div class="cut"></div>
+                <label for="department" class="placeholder55">Select Department</label>
+                <div id="departmentError" class="error"></div>
+              </div>
+              <br> 
+              <div class="row">
+              <label class="switch col-4 ms-3">
+              <input type="checkbox" th:checked="${userBean.status} == 1" name="status">
+              <span class="slider round"></span>
+              </label>
+              <p class="col-6" id="status"> </p>
+              </div>
+              <div class="button-container row mt-1">
+                <input type="hidden" name="userId" th:value="${userBean.id}"/>
+                <button type="submit" class="submit col-10 m-auto">Save</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+      <div class="d-flex justify-content-center">
+        <div>
+          <button class="btn border-0 " onclick="window.location.href='/system/manageusers'">
+            <i class="fa-solid fa-circle-chevron-left fa-3x"></i>  
+          </button>
+        </div>
+      </div>
+        
+    </section>
+   <div id="message" style="display: none;" th:text="${session.message}"></div>
+  </main><!-- End #main -->
+
+<div th:replace="side-bar :: footer"></div>
+<div th:replace="side-bar :: customscriptsforuserregister"></div>
+<div th:replace="side-bar :: scripts"></div>
+</body>
+</html>

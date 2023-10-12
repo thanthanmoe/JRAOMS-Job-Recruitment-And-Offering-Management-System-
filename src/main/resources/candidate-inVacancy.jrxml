@@ -1,0 +1,516 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.20.0.final using JasperReports Library version 6.20.0-2bc7ab61c56f459e8176eb05c7705e145cd400ad  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="candidates" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="00d2549b-380c-49ac-a20b-b11739f5c053">
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<property name="net.sf.jasperreports.export.xlsx.exclude.origin.keep.first.band.1" value="pageHeader"/>
+	<property name="net.sf.jasperreports.export.xlsx.exclude.origin.band.2" value="pageFooter"/>
+	<property name="net.sf.jasperreports.export.xls.exclude.origin.band.3" value="lastPageFooter"/>
+	<property name="net.sf.jasperreports.export.xls.remove.empty.space.between.rows" value="true"/>
+	<property name="net.sf.jasperreports.export.xls.remove.empty.space.between.columns" value="true"/>
+	<property name="net.sf.jasperreports.export.xls.white.page.background" value="false"/>
+	<property name="net.sf.jasperreports.export.xls.detect.cell.type" value="false"/>
+	<property name="net.sf.jasperreports.export.xls.ignore.graphics" value="false"/>
+	<property name="net.sf.jasperreports.export.xls.ignore.cell.border" value="false"/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="jraoms"/>
+	<parameter name="createdBy" class="java.lang.String"/>
+
+	<field name="id" class="java.lang.Integer">
+		</field>
+	<field name="cv_status" class="java.lang.String">
+	</field>
+	<field name="date" class="java.time.LocalDate"></field>
+	<field name="degree" class="java.lang.String"></field>
+	<field name="dob" class="java.lang.String"></field>
+	<field name="email" class="java.lang.String"></field>
+	<field name="experiences" class="java.lang.String"></field>
+	<field name="gender" class="java.lang.String"></field>
+	<field name="language" class="java.lang.String"></field>
+	<field name="level" class="java.lang.String"></field>
+	<field name="main_technical" class="java.lang.String"></field>
+	<field name="name" class="java.lang.String"></field>
+	<field name="phone" class="java.lang.String"></field>
+	<field name="wages" class="java.lang.String"></field>
+	<field name="technical" class="java.lang.String"></field>
+	<field name="candidate_cv_id" class="java.lang.Integer"></field>
+	<field name="vacancy_id" class="java.lang.Integer"></field>
+	<field name="position" class="java.lang.String"></field>
+	<field name="interview_date" class="java.lang.String"></field>
+	<field name="join_date" class="java.time.LocalDate"></field>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="41" splitType="Stretch">
+			<textField>
+				<reportElement mode="Opaque" x="-20" y="0" width="280" height="41" forecolor="#210A0A" uuid="aa23909a-9ce7-44e8-bea7-c396d9daf4b0"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="11" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{createdBy}]]></textFieldExpression>
+			</textField>
+			<textField pattern="MMMMM dd, yyyy">
+				<reportElement x="720" y="0" width="101" height="41" uuid="90a9da57-50c7-4db7-9322-e1e9e1043db7"/>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="40">
+			<staticText>
+				<reportElement mode="Opaque" x="-20" y="0" width="30" height="40" forecolor="#131561" backcolor="#A8A7A7" uuid="7707ad3b-cd4e-4e1f-b47e-ebe3c1a049fb"/>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#2E3B6B"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#2E3B6B"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#2E3B6B"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#2E3B6B"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Tahoma" size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[No]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="10" y="0" width="50" height="40" forecolor="#131561" backcolor="#A8A7A7" uuid="ac54e23a-495b-49f0-8126-d64960c10066"/>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#2E3B6B"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#2E3B6B"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#2E3B6B"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#2E3B6B"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Tahoma" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Name]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="60" y="0" width="40" height="40" forecolor="#131561" backcolor="#A8A7A7" uuid="366fae71-434e-460e-869a-7d26368139b5"/>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#2E3B6B"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#2E3B6B"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#2E3B6B"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#2E3B6B"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Tahoma" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Apply Date]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="100" y="0" width="50" height="40" forecolor="#131561" backcolor="#ABABAB" uuid="ab0cdb80-ef9d-4ac2-add3-8fcf15901bc5"/>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#2E3B6B"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#2E3B6B"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#2E3B6B"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#2E3B6B"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Tahoma" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Action Status]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="150" y="0" width="30" height="40" forecolor="#131561" backcolor="#ABABAB" uuid="2592d891-87f4-44c0-9640-64a608d97852"/>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#2E3B6B"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#2E3B6B"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#2E3B6B"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#2E3B6B"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Tahoma" isBold="true"/>
+				</textElement>
+				<text><![CDATA[DOB]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="180" y="0" width="30" height="40" forecolor="#131561" backcolor="#ABABAB" uuid="1b69d38b-6552-4107-89cf-1bf9de8c7555"/>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#2E3B6B"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#2E3B6B"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#2E3B6B"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#2E3B6B"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Tahoma" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Sex]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="210" y="0" width="50" height="40" forecolor="#131561" backcolor="#ABABAB" uuid="edf82ec6-50a9-42fb-94f0-fb79d3a7f49b"/>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#2E3B6B"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#2E3B6B"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#2E3B6B"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#2E3B6B"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Tahoma" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Ph no.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="260" y="0" width="70" height="40" forecolor="#131561" backcolor="#ABABAB" uuid="fc5278c8-671d-4daa-ae43-74a144cbdfff"/>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#2E3B6B"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#2E3B6B"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#2E3B6B"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#2E3B6B"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Tahoma" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Email]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="330" y="0" width="60" height="40" forecolor="#131561" backcolor="#ABABAB" uuid="c3c135e3-05eb-4528-b009-b40994ba7ecb"/>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#2E3B6B"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#2E3B6B"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#2E3B6B"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#2E3B6B"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Tahoma" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Degree]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="390" y="0" width="80" height="40" forecolor="#131561" backcolor="#ABABAB" uuid="2442ab9c-ac03-45c9-8c57-861c0eaa1345"/>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#2E3B6B"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#2E3B6B"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#2E3B6B"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#2E3B6B"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Tahoma" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Technical Skills]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="470" y="0" width="66" height="40" forecolor="#131561" backcolor="#ABABAB" uuid="592d1949-4b6f-4877-967d-ab4d22d5bac4"/>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#2E3B6B"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#2E3B6B"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#2E3B6B"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#2E3B6B"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Tahoma" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Language Skills]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="536" y="0" width="54" height="40" forecolor="#131561" backcolor="#ABABAB" uuid="b0dae0d3-38b6-4ff7-9f04-2b8c637ebefd"/>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#2E3B6B"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#2E3B6B"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#2E3B6B"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#2E3B6B"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Tahoma" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Apply Positon]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="590" y="0" width="30" height="40" forecolor="#131561" backcolor="#ABABAB" uuid="1de174ae-61e9-4eb0-a208-6d099ccf7ec2"/>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#2E3B6B"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#2E3B6B"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#2E3B6B"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#2E3B6B"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Tahoma" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Level]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="620" y="0" width="50" height="40" forecolor="#131561" backcolor="#ABABAB" uuid="0761b127-fad1-49c4-8af5-5c68fe2b1ed4"/>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#2E3B6B"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#2E3B6B"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#2E3B6B"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#2E3B6B"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Tahoma" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Interview Date]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="670" y="0" width="50" height="40" forecolor="#131561" backcolor="#ABABAB" uuid="ebdd8c0a-b6f7-4cce-a1b7-a60351fd3b7f"/>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Tahoma" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Experience]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="761" y="0" width="61" height="40" forecolor="#131561" backcolor="#ABABAB" uuid="4e0e4d99-117a-403c-9995-a492364947c3"/>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Tahoma" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Expected Salary]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="720" y="0" width="41" height="40" forecolor="#131561" backcolor="#ABABAB" uuid="c7b6d42e-f07c-42ca-8a1b-2e6c69228c6e"/>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Tahoma" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Join Date]]></text>
+			</staticText>
+		</band>
+	</pageHeader>
+	<detail>
+		<band height="30" splitType="Stretch">
+			<textField>
+				<reportElement x="-20" y="0" width="30" height="30" uuid="7afadb8c-2fcb-42b3-aa4f-3fd7943cb1cc"/>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#2E3B6B"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#2E3B6B"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#2E3B6B"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#2E3B6B"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Tahoma"/>
+				</textElement>
+				<textFieldExpression><![CDATA["\u00A0" +$V{REPORT_COUNT}.toString()]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="10" y="0" width="50" height="30" uuid="538477d4-453a-4afc-91f1-56be7e993772"/>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#2E3B6B"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#2E3B6B"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#2E3B6B"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#2E3B6B"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Tahoma"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{name}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="60" y="0" width="40" height="30" uuid="7f7bf803-c8ce-41a1-a7a2-284df98eeae0"/>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#2E3B6B"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#2E3B6B"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#2E3B6B"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#2E3B6B"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Tahoma"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{date}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement mode="Opaque" x="100" y="0" width="50" height="30" uuid="ec1d326f-6713-43e7-a2b0-dae3a37e01f8"/>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#2E3B6B"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#2E3B6B"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#2E3B6B"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#2E3B6B"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Tahoma"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{cv_status}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement mode="Opaque" x="150" y="0" width="30" height="30" uuid="d9cc0702-f862-47f9-ad25-95ab6499405d"/>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Tahoma"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{dob}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement mode="Opaque" x="180" y="0" width="30" height="30" uuid="f6f0f2d7-f2d3-4153-8f9f-0106f5c87636"/>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#2E3B6B"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#2E3B6B"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#2E3B6B"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#2E3B6B"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Tahoma"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{gender}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement mode="Opaque" x="210" y="0" width="50" height="30" uuid="3ea3eb6c-43a6-4006-adae-e139d443916b"/>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#2E3B6B"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#2E3B6B"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#2E3B6B"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#2E3B6B"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Tahoma"/>
+				</textElement>
+				<textFieldExpression><![CDATA["\u00A0" + $F{phone}.toString()]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement mode="Opaque" x="260" y="0" width="70" height="30" uuid="d70d28de-7a12-434a-a12e-4c97da2194cc"/>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Tahoma"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{email}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement mode="Opaque" x="330" y="0" width="60" height="30" uuid="19378409-c56c-43d5-aac3-03500435ab4c"/>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#2E3B6B"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#2E3B6B"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#2E3B6B"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#2E3B6B"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Tahoma"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{degree}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement mode="Opaque" x="390" y="0" width="80" height="30" uuid="7d503452-14d5-4527-92c0-3ff313d52d75"/>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#2E3B6B"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#2E3B6B"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#2E3B6B"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#2E3B6B"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Tahoma"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{technical}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement mode="Opaque" x="470" y="0" width="66" height="30" uuid="4cfa7e6f-36b1-4e06-b722-303506f6c195"/>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#2E3B6B"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#2E3B6B"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#2E3B6B"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#2E3B6B"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Tahoma"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{language}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement mode="Opaque" x="536" y="0" width="54" height="30" uuid="d8677445-7f18-4fdb-b9db-3091c2006d15"/>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#2E3B6B"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#2E3B6B"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#2E3B6B"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#2E3B6B"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Tahoma"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{position}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement mode="Opaque" x="590" y="0" width="30" height="30" uuid="8ccdb77b-8148-4138-9bd4-d4b1c38b5381"/>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#2E3B6B"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#2E3B6B"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#2E3B6B"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#2E3B6B"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Tahoma"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{level}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement mode="Opaque" x="620" y="0" width="50" height="30" uuid="2b074aaf-f7c6-4935-84ec-17300a8a4fb2"/>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#2E3B6B"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#2E3B6B"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#2E3B6B"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#2E3B6B"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Tahoma"/>
+				</textElement>
+				<textFieldExpression><![CDATA[($F{interview_date} != null && !$F{interview_date}.trim().isEmpty()) 
+			            ?  java.util.Arrays.stream($F{interview_date}.split(","))
+			                                                 .max(java.util.Comparator.naturalOrder())
+			                                                 .orElse("N/A")
+			            : "-"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement mode="Opaque" x="670" y="0" width="50" height="30" uuid="4cf4a3c3-1aed-4e51-8442-d65d3921695f"/>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{experiences}+ "years"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement mode="Opaque" x="761" y="0" width="61" height="30" uuid="6851e159-a02d-4b0a-a616-0135f66acf0b"/>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{wages} == null? "-" : ("\u00A0" + $F{wages}.toString())]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement mode="Opaque" x="720" y="0" width="41" height="30" uuid="f5a4ed57-02d7-48b8-9349-b729f93ed662"/>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{join_date} == null ? "-" : $F{join_date}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<pageFooter>
+		<band height="25" splitType="Stretch">
+			<textField>
+				<reportElement mode="Opaque" x="761" y="0" width="61" height="25" uuid="9756d330-14d8-4a51-b680-7a981aa78b84"/>
+				<textFieldExpression><![CDATA[$V{PAGE_NUMBER}.toString()]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageFooter>
+	<summary>
+		<band height="18" splitType="Stretch"/>
+	</summary>
+</jasperReport>

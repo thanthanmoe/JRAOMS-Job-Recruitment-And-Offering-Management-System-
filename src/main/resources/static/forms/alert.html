@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <!-- Include Bootstrap CSS -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+  
+  <!-- Include custom CSS for the animation -->
+  <style>
+    /* Define the animation */
+    @keyframes border-animation {
+      0% { border-color: red; }
+      25% { border-color: blue; }
+      50% { border-color: green; }
+      75% { border-color: yellow; }
+      100% { border-color: red; }
+    }
+    
+    /* Apply the animation to the alert */
+    .alert-animated {
+      animation: border-animation 5s infinite;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Add a button to trigger the alert -->
+  <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">
+    Add User
+  </button>
+
+  <!-- The alert message -->
+  <div class="modal fade" id="myModal">
+    <div class="modal-dialog">
+      <div class="modal-content">
+
+        <!-- Alert header -->
+        <div class="modal-header">
+          <h5 class="modal-title">Success!</h5>
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+        </div>
+
+         
+      </div>
+    </div>
+  </div>
+
+  <!-- Include Bootstrap JS and jQuery -->
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+
+  <!-- Run the animation when the alert is shown -->
+  <script>
+    $('#myModal').on('shown.bs.modal', function () {
+      $('.modal-content').addClass('alert-animated');
+    });
+  </script>
+
+</body>
+</html>

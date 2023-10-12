@@ -1,0 +1,143 @@
+@charset "ISO-8859-1";
+ 
+  .formadmin {
+    background-color: #b3dbff;
+    border-radius: 20px;
+    box-sizing: border-box;
+    height: 450px;
+    padding: 20px;
+    width: 600px;
+  }
+
+  
+  
+  .input-container {
+    height: 60px;
+    position: relative;
+    width: 50%;
+  }
+  
+  .ic1 {
+    margin-top: 40px;
+  }
+  
+  .ic2 {
+    margin-top: 30px;
+  }
+  
+  .input {
+    background-color: white;
+    border-radius: 12px;
+    border: 0;
+    box-sizing: border-box;
+    color: black;
+    font-size: 18px;
+      height: 50px;
+    outline: 0;
+    width: 100%;
+  }
+  
+  .cut {
+    background-color:white;
+    border-radius: 10px;
+    height: 20px;
+    left: 20px;
+    position: absolute;
+    top: -20px;
+    
+    transform: translateY(0);
+    transition: transform 200ms;
+    width: 200px;
+  }
+  
+  .cut-short {
+    width: 50px;
+  }
+  
+  .input:focus ~ .cut,
+  .input:not(:placeholder-shown) ~ .cut {
+    transform: translateY(8px);
+  }
+  
+  .placeholder55 {
+    color:gray;
+    font-family: sans-serif;
+    left: 20px;
+    line-height: 14px;
+    pointer-events: none;
+    position: absolute;
+    transform-origin: 50% 50%;
+    transition: transform 200ms, color 200ms;
+    top: 20px;
+  }
+  
+  .input:focus ~ .placeholder55,
+  .input:not(:placeholder-shown) ~ .placeholder55 {
+    transform: translateY(-30px) translateX(10px) scale(0.75);
+  }
+  
+  .input:not(:placeholder-shown) ~ .placeholder55 {
+    color: #808097;
+  }
+  
+  .input:focus ~ .placeholder55 {
+    color: #dc2f55;
+  }
+  
+  .button-container {
+    display: flex;
+     
+  }
+  /* for input type file */
+  .input-file-container {
+    position: relative;
+    width: 225px;
+  } 
+  .js .input-file-trigger {
+    display: block;
+    padding: 14px 45px;
+    background: #39D2B4;
+    color: #fff;
+    font-size: 1em;
+    transition: all .4s;
+    cursor: pointer;
+    border-radius: 10px;
+  }
+  .js .input-file {
+    position: absolute;
+    top: 0; left: 0;
+    width: 225px;
+    opacity: 0;
+    padding: 14px 0;
+    cursor: pointer;
+  }
+  .js .input-file:hover + .input-file-trigger,
+  .js .input-file:focus + .input-file-trigger,
+  .js .input-file-trigger:hover,
+  .js .input-file-trigger:focus {
+    background: #34495E;
+    color: #39D2B4;
+  }
+  
+  .file-return {
+    margin: 0;
+    height:40px;
+  }
+   
+  .js .file-return {
+    font-style: italic;
+    font-size: .9em;
+    font-weight: bold;
+  }
+  .js .file-return:not(:empty):before {
+    content: "Selected file: ";
+    font-style: normal;
+    font-weight: normal;
+  }
+
+  .inputError {
+    border:solid 1px red;
+  }
+  
+  
+  

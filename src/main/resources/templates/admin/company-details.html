@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head>
+    <!-- Favicons -->
+    <link rel="shortcut icon" type="icon/image" href="https://acedatasystems.com/wp-content/themes/acedata/shared/images/fav/favicon.ico">
+
+    <div th:replace="side-bar :: head"></div>
+    <style>
+
+        .company th{
+            background-color:#D5D6EA;
+            line-height:38px;
+        }
+        .company td{
+            line-height:38px;
+            background-color: #f6f9ff;
+        }
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/izitoast/1.4.0/css/iziToast.min.css" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.7.0.min.js"
+            integrity="sha256-2Pmvv0kuTBOenSvLm6bvfBSSHrUJ+3A7x6P5Ebd07/g=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/izitoast/1.4.0/js/iziToast.min.js"></script>
+</head>
+
+<body>
+<div th:replace="side-bar :: header"></div>
+<div th:replace="side-bar :: sidebar"></div>
+
+
+<main id="main" class="main">
+
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item">Home</li>
+        <li class="breadcrumb-item active">Company Details</li>
+    </ol>
+
+    <!-- End #main -->
+    <section class="section">
+        <div class="row gap-3" >
+            <div class="col-lg-11 m-auto shadow p-3 mb-5 bg-grey rounded">
+                <div style="margin-left: 40px; margin-top:20px;line-height: 2;">
+                    <h4 class="d-inline text-primary float-center ml-6"><b>[[${company.name}]]</b></h4>
+                    <h1></h1>
+                    <h6><i class="bi bi-envelope"></i>&nbsp;&nbsp;<b>Email</b>    :  <span>[[${company.email}]]</span></h6>
+                    <h6><i class="bi bi-telephone"></i>&nbsp;&nbsp;<b>Phone</b>    :  <span>[[${company.phone}]]</span></h6>
+                    <h6><i class="bi bi-geo-alt-fill"></i> &nbsp;&nbsp;<b>Location</b>    :  <span>[[${company.location}]]</span></h6>
+                    <h6><i class="bi bi-link"></i>&nbsp;&nbsp;<b>Website Link</b>   : <span>[[${company.link}]]</span></h6>
+                    <h6><b>About Company</b>   : </h6>
+                    <p class="col-lg-10" style="margin-left: 35px;text-align: justify;">
+                        [[${company.about}]]
+                    </p>
+                    <h6><b>Departments </b>   : </h6>
+                    <ol>
+                        <li th:each="department : ${company.departments}" th:text="${department.name}"></li>
+                    </ol>
+                    <a th:href="@{/system/updatecompany/{id}(id=${company.id})}" class="btn btn-outline-success">
+                        Update <i class="bi bi-arrow-up-circle"></i>
+                    </a>
+
+
+                    <span class="float-end"></span>
+                </div>
+            </div>
+        </div>
+        <div id="companyMessage" style="display:none;" th:text="${session.companyMessage}"></div>
+    </section><!-- End #main -->
+</main>
+
+<div th:replace="side-bar :: footer"></div>
+<div th:replace="side-bar :: scripts"></div>
+<script>
+    iziToast.settings({
+        timeout: 3000,
+        resetOnHover: true,
+        transitionIn: 'flipInX',
+        transitionOut: 'flipOutX',
+        position: 'topCenter',
+        onOpen: function() {
+            console.log('callback abriu!');
+        },
+        onClose: function() {
+            console.log("callback fechou!");
+        }
+    });
+    $(document).ready(function() {
+
+        function clearMessage() {
+            $.ajax({
+                url: '/system/killCompanyMessage',
+                method: 'GET',
+                success: function(data) {
+                    if (response.status === 'okey') {
+                        console.log("success");
+                    }
+                },
+                error: function(xhr, status, error) {
+                    console.error('Failed to clear session attribute:', error);
+                }
+            });
+        }
+        if ($('#companyMessage').html() === 'successUpdate') {
+            iziToast.success({ timeout: 3000, icon: 'fa-solid fa-check', message: 'Company Successfully Updated!' });
+            clearMessage();
+        }
+    });
+</script>
+</body>
+</html>

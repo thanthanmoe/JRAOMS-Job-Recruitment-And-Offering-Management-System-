@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head>
+    <!-- Favicons -->
+    <link rel="shortcut icon" type="icon/image" href="https://acedatasystems.com/wp-content/themes/acedata/shared/images/fav/favicon.ico">
+
+    <div th:replace="side-bar :: head"></div>
+  <!-- Template Main CSS File -->
+  <link href="assets/css/style.css" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/izitoast/1.4.0/css/iziToast.min.css" rel="stylesheet">
+  <script src="https://code.jquery.com/jquery-3.7.0.min.js"
+          integrity="sha256-2Pmvv0kuTBOenSvLm6bvfBSSHrUJ+3A7x6P5Ebd07/g=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/izitoast/1.4.0/js/iziToast.min.js"></script>
+  <script src="/assets/js/user-profile.js"></script>
+  <style>
+  .input-hidden {
+  position: absolute;
+  left: -9999px;
+  }
+  input[type=radio]:checked + label>img {
+   border: 1px solid #fff;
+   box-shadow: 0 0 3px 3px #090;
+  }
+  #edit {
+  position : absolute;
+  bottom : 39%;
+  background:rgba(255, 255, 255, 0.4);
+  width:35%;
+  text-align:center;
+  }
+  </style>
+</head>
+
+<body>
+<div th:replace="side-bar :: header"></div>
+<div th:replace="side-bar :: sidebar"></div>
+
+
+<main id="main" class="main">
+
+    <div class="pagetitle">
+      <h1>Profile</h1>
+      <nav>
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item">Home</li>
+          <li class="breadcrumb-item">Users</li>
+          <li class="breadcrumb-item active">Profile</li>
+        </ol>
+      </nav>
+    </div><!-- End Page Title -->
+
+    <section class="section profile">
+      <div class="row">
+        <div class="col-xl-4">
+
+          <div class="card" th:object="${user}">
+            <div class="card-body profile-card pt-4 d-flex flex-column align-items-center">
+           <i class="bi bi-brush" id="edit" data-bs-toggle="modal" data-bs-target="#chooseProfile"></i>
+              <img th:src="@{'/assets/img/'+ *{profilePicture}}" alt="Profile" class="rounded-circle" id="mainProfile"
+              data-bs-toggle="modal" data-bs-target="#chooseProfile">
+              <h2>[[*{name}]]</h2>
+              <h3>[[*{role}]]</h3>
+              
+            </div>
+          </div>
+
+ <!-- Basic Modal -->
+              
+              <div class="modal fade" id="chooseProfile" tabindex="-1">
+                <div class="modal-dialog">
+                  <div class="modal-content">
+                    <form th:action="@{/userUpdateAvatar}" method="post">
+                    <div class="modal-header">
+                      <h5 class="modal-title">Choose Avatar</h5>
+                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body row">
+                       <div class="col-3 m-auto mb-1">
+                       <input type="radio" class="input-hidden" id="defaultUser" name="userAvatar" value="defaultUser.png"/>
+                       <label for="defaultUser">
+                       <img src="/assets/img/defaultUser.png" alt="defaultUser Avatar" width="100px">
+                       </label>
+                       </div>
+                       <div class="col-3 m-auto mb-1">
+                       <input type="radio" class="input-hidden" id="man1" name="userAvatar" value="man1.jpg" th:checked="${user.profilePicture} == man1.jpg"/>
+                       <label for="man1">
+                       <img src="/assets/img/man1.jpg" alt="defaultUser Avatar" width="100px">
+                       </label>
+                       </div>
+                       <div class="col-3 m-auto mb-1">
+                       <input type="radio" class="input-hidden" id="man2" name="userAvatar" value="man2.jpg" th:checked="${user.profilePicture} == man2.jpg"/>
+                       <label for="man2">
+                       <img src="/assets/img/man2.jpg" alt="man2 Avatar" width="100px" />
+                       </label>
+                       </div>
+                       <div class="col-3 m-auto mb-1">
+                       <input type="radio" class="input-hidden" id="man3" name="userAvatar" value="man3.jpg" th:checked="${user.profilePicture} == man3.jpg"/>
+                       <label for="man3">
+                       <img src="/assets/img/man3.jpg" alt="man3 Avatar" width="100px" />
+                       </label>
+                       </div>
+                       <div class="col-3 m-auto mb-1">
+                       <input type="radio" class="input-hidden" id="man4" name="userAvatar" value="man4.jpg" th:checked="${user.profilePicture} == man4.jpg"/>
+                       <label for="man4">
+                       <img src="/assets/img/man4.jpg" alt="man4 Avatar" width="100px" />
+                       </label>
+                       </div>
+                       <div class="col-3 m-auto mb-1">
+                       <input type="radio" class="input-hidden" id="man5" name="userAvatar" value="man5.jpg" th:checked="${user.profilePicture} == man5.jpg"/>
+                       <label for="man5">
+                       <img src="/assets/img/man5.jpg" alt="man5 Avatar" width="100px" />
+                       </label>
+                       </div>
+                       <div class="col-3 m-auto mb-1">
+                       <input type="radio" class="input-hidden" id="girl1" name="userAvatar" value="girl1.jpg" th:checked="${user.profilePicture} == girl1.jpg"/>
+                       <label for="girl1">
+                       <img src="/assets/img/girl1.jpg" alt="girl1 Avatar" width="100px" />
+                       </label>
+                       </div>
+                       <div class="col-3 m-auto mb-1">
+                       <input type="radio" class="input-hidden" id="girl2" name="userAvatar" value="girl2.jpg" th:checked="${user.profilePicture} == girl2.jpg"/>
+                       <label for="girl2">
+                       <img src="/assets/img/girl2.jpg" alt="girl2 Avatar" width="100px" />
+                       </label>
+                       </div>
+                       <div class="col-3 m-auto mb-1">
+                       <input type="radio" class="input-hidden" id="girl3" name="userAvatar" value="girl3.jpg" th:checked="${user.profilePicture} == girl3.jpg"/>
+                       <label for="girl3">
+                       <img src="/assets/img/girl3.jpg" alt="girl3 Avatar" width="100px" />
+                       </label>
+                       </div>
+                       <div class="col-3 m-auto mb-1">
+                       <input type="radio" class="input-hidden" id="girl4" name="userAvatar" value="girl4.jpg" th:checked="${user.profilePicture} == girl4.jpg"/>
+                       <label for="girl4">
+                       <img src="/assets/img/girl4.jpg" alt="girl4 Avatar" width="100px" />
+                       </label>
+                       </div>
+                       <div class="col-3 m-auto mb-1">
+                       <input type="radio" class="input-hidden" id="girl5" name="userAvatar" value="girl5.jpg" th:checked="${user.profilePicture} == girl5.jpg"/>
+                       <label for="girl5">
+                       <img src="/assets/img/girl5.jpg" alt="girl5 Avatar" width="100px" />
+                       </label>
+                       </div>
+                       <div class="col-3 m-auto mb-1">
+                       <input type="radio" class="input-hidden" id="girl6" name="userAvatar" value="girl6.jpg" th:checked="${user.profilePicture} == girl6.jpg"/>
+                       <label for="girl6">
+                       <img src="/assets/img/girl6.jpg" alt="girl6 Avatar" width="100px" />
+                       </label>
+                       </div>
+                    </div>
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                      <button type="submit" class="btn btn-primary" id="saveAvatar">Save changes</button>
+                    </div>
+                  </form>
+                  </div>
+                </div>
+              </div><!-- End Basic Modal-->
+        </div>
+
+        <div class="col-xl-8">
+
+          <div class="card">
+            <div class="card-body pt-3">
+              <!-- Bordered Tabs -->
+              <ul class="nav nav-tabs nav-tabs-bordered">
+
+                <li class="nav-item">
+                  <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#profile-overview" id="overview">Overview</button>
+                </li>
+
+                <li class="nav-item">
+                  <button class="nav-link" data-bs-toggle="tab" data-bs-target="#profile-edit" id="pf-edit">Change Email</button>
+                </li>
+
+                <li class="nav-item">
+                  <button class="nav-link" data-bs-toggle="tab" data-bs-target="#profile-change-password" id="change-pw">Change Password</button>
+                </li>
+
+              </ul>
+              <div class="tab-content pt-2">
+
+                <div class="tab-pane fade show active profile-overview" id="profile-overview" th:object="${user}">
+                  
+                  <h5 class="card-title">Profile Details</h5>
+
+                  <div class="row">
+                    <div class="col-lg-3 col-md-4 label ">Full Name</div>
+                    <div class="col-lg-9 col-md-8">[[*{name}]]</div>
+                  </div>
+
+                  <div class="row">
+                    <div class="col-lg-3 col-md-4 label">Company</div>
+                    <div class="col-lg-9 col-md-8" >[[*{department.company.name}]]</div>
+                  </div>
+
+                  <div class="row">
+                    <div class="col-lg-3 col-md-4 label">Department</div>
+                    <div class="col-lg-9 col-md-8">[[*{department.name}]]</div>
+                  </div>
+
+                  <div class="row">
+                    <div class="col-lg-3 col-md-4 label">Email</div>
+                    <div class="col-lg-9 col-md-8">[[*{email}]]</div>
+                  </div>
+
+                 <div class="row">
+                    <div class="col-lg-3 col-md-4 label">Position</div>
+                    <div class="col-lg-9 col-md-8">[[*{role}]]</div>
+                  </div>
+                  
+                </div>
+
+                <div class="tab-pane fade profile-edit pt-3" id="profile-edit">
+
+                  <!-- Profile Edit Form -->
+                  <form th:action="@{/updateEmail}" th:object="${user}" method="post">
+                     
+                    <div class="row mb-3">
+                      <label for="Email" class="col-md-4 col-lg-3 col-form-label">Email</label>
+                      <div class="col-md-8 col-lg-9">
+                        <input name="email" type="email" class="form-control" id="email" th:field="*{email}">
+                      </div>
+                    </div>
+                    
+                    <div class="row mb-3">
+                      <label for="Email" class="col-md-4 col-lg-3 col-form-label">Request OTP</label>
+                      <div class="col-md-8 col-lg-9">
+                        <button class="btn btn-outline-primary col-12" id="getOtp">Get OTP Code</button>
+                      </div>
+                    </div>
+                    
+                    <div class="row mb-3">
+                      <label for="Email" class="col-md-4 col-lg-3 col-form-label">OTP</label>
+                      <div class="col-md-8 col-lg-9">
+                        <input name="otpCode" type="number" class="form-control" id="otpCode"/>
+                      </div>
+                    </div>
+
+                    <div class="text-center">
+                      <button type="submit" class="btn btn-primary" id="saveEmail">Save Changes</button>
+                    </div>
+                    <div id="updateMailMessage" style="display:none;" th:text="${session.updateMailMessage}"></div>
+                  </form><!-- End Profile Edit Form -->
+                     
+                </div>
+
+                <div class="tab-pane fade pt-3" id="profile-change-password">
+                  <!-- Change Password Form -->
+                  <form th:action="@{/userChangePassword}" method="post">
+
+                    <div class="row mb-3">
+                      <label for="currentPassword" class="col-md-4 col-lg-3 col-form-label">Current Password</label>
+                      <div class="col-md-8 col-lg-9">
+                        <input name="password" type="password" class="form-control" id="currentPassword" maxlength="18">
+                      </div>
+                    </div>
+
+                    <div class="row mb-3">
+                      <label for="newPassword" class="col-md-4 col-lg-3 col-form-label">New Password</label>
+                      <div class="col-md-8 col-lg-9">
+                        <input name="newpassword" type="password" class="form-control" id="newPassword" maxlength="18">
+                      </div>
+                    </div>
+
+                    <div class="row mb-3">
+                      <label for="renewPassword" class="col-md-4 col-lg-3 col-form-label">Re-enter New Password</label>
+                      <div class="col-md-8 col-lg-9">
+                        <input name="renewpassword" type="password" class="form-control" id="renewPassword" maxlength="18">
+                      </div>
+                    </div>
+
+                    <div class="text-center">
+                      <button type="submit" class="btn btn-primary" id="changePwBtn">Change Password</button>
+                    </div>
+                  </form><!-- End Change Password Form -->
+
+                </div>
+
+              </div><!-- End Bordered Tabs -->
+
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+  </main><!-- End #main -->
+
+<div th:replace="side-bar :: footer"></div>
+<div th:replace="side-bar :: scripts"></div>
+</body>
+</html>

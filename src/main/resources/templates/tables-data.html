@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head>
+	<!-- Favicons -->
+	<link rel="shortcut icon" type="icon/image" href="https://acedatasystems.com/wp-content/themes/acedata/shared/images/fav/favicon.ico">
+
+	<link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css"/>
+	<div th:replace="side-bar :: head"></div>
+	<style>
+		#startDate,#endDate {
+			width:100%;
+		}
+
+		.form-control.custom-dropdown {
+			appearance: none; /* Removes default style of the select box in some browsers */
+			-webkit-appearance: none;
+			-moz-appearance: none;
+			background: #f7f7f7 url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24"><path fill="%23000000" d="M7 10l5 5 5-5z"></path></svg>') no-repeat right 12px center;
+			padding-right: 30px; /* Space for the icon */
+		}
+
+		.candidate th{
+			background-color:#D5D6EA;
+			line-height:38px;
+		}
+		.align-right {
+			justify-content: flex-end !important;   /* Aligns the content to the start (left for LTR layouts) */
+		}
+
+	</style>
+</head>
+
+<body>
+<div th:replace="side-bar :: header"></div>
+<div th:replace="side-bar :: sidebar"></div>
+<div th:replace="side-bar :: popupCdn"></div>
+
+<main id="main" class="main">
+
+	<section class="section">
+		<div class="row gap-3">
+			<span>Choose Start Date to End Date</span>
+			<div class="col-6 row">
+				<div class="col-4 pt-1 pe-0">
+					<input type="date" class="form-control" id="startDate" name="startDate"
+						   placeholder="Enter month for Report" min="1">
+				</div><div class="col-4 pt-1">
+				<input type="date" class="form-control" id="endDate" name="endDate"
+					   placeholder="Enter month for Report" min="1">
+			</div>
+				<div class="input-group-btn col-4 pt-0 ps-0">
+					<button class="btn btn-success" type="button" id="pdfReport">
+						<i class="fas fa-file-pdf fa-xl pdf-icon icon"></i>
+					</button>
+					<button type="button" class="btn btn-success" id="excelReport">
+						<i class="fas fa-file-excel fa-xl excel-icon icon"></i>
+					</button>
+				</div>
+
+			</div>
+
+			<div class="col-2"></div>
+
+			<div class="col-4 row">
+			<div class="col-7 pt-1 gap-0 ">
+				<select class="form-control custom-dropdown" name="reportStatus" id="reportStatus">						<option value="All"  selected>All Candidate</option>
+						<option value="RECEIVE">Receive</option>
+						<option value="VIEW">View</option>
+						<option value="CONSIDERING">Considering</option>
+						<option value="PENDING">Pending</option>
+						<option value="PASSED">Passed</option>
+						<option value="CANCEL">Cancel</option>
+						<option value="NOTINTERVIEW">Not Interview</option>
+					</select>
+				</div>
+				<div class="col-5">
+					<button class="btn btn-success" type="button" id="pdfReportStatus" onclick="pdfForm()" >
+						<i class="fas fa-file-pdf fa-xl pdf-icon icon"></i>
+					</button>
+					<button type="button" class="btn btn-success" id="excelReportStatus" onclick="xlsxForm()" >
+						<i class="fas fa-file-excel fa-xl excel-icon icon"></i>
+					</button>
+				</div>
+			
+			</div>
+	
+		</div>
+	
+		<span id="error" style="color:red;"></span>
+		<h1></h1><br>
+		<table  id="example" class="display candidate" style="width: 100%;">
+
+			<thead>
+
+			<tr>
+				<th scope="col">#</th>
+				<th scope="col">Name</th>
+				<th scope="col">Email</th>
+				<th scope="col">Main Technical</th>
+				<th scope="col">Upload Date</th>
+				<th scope="col">Status</th>
+				<th scope="col">SeeMore</th>
+			</tr>
+			</thead>
+
+			<tbody>
+
+			</tbody>
+		</table>
+
+	</section>
+
+</main><!-- End #main -->
+
+<div th:replace="side-bar :: footer"></div>
+<script>
+	$(document).ready(function () {
+		iziToast.settings({
+			timeout: 3000,
+			resetOnHover: true,
+			transitionIn: 'flipInX',
+			transitionOut: 'flipOutX',
+			position: 'topCenter',
+			onOpen: function() {
+				console.log('callback abriu!');
+			},
+			onClose: function() {
+				console.log("callback fechou!");
+			}
+		});
+		$('table#example').DataTable({
+			"serverSide": true,
+			"processing": true,
+			"ajax": '/candidatePage',
+			"columns": [
+				{ name: "Id", data: "id", targets: 0 },
+				{ name: "Name", data: "name", targets: 1 },
+				{ name: "Email", data: "email", targets: 2 },
+				{ name: "Main Technical", data: "mainTechnical", targets: 3 },
+				{ name: "Upload Date", data: "date", targets: 4 },
+				{
+					name: "Status",
+					data: "cvStatus",
+					targets: 5,
+					render: function (data, type, row) {
+						return '<td>' + row.cvStatus + '&nbsp;</td>';
+					},
+					sortable: true
+				},
+
+				{
+					targets: 6,
+					data: "id",
+					render: function (data, type, row) {
+						return '&nbsp;<a href="/manage/seemore/' + row.id + '" style="text-decoration: none;">SeeMore<a>' ;
+					},
+
+					sortable: false
+				},
+
+			]
+		});
+
+	});
+	$('#excelReport').click(function(event) {
+		event.preventDefault();
+
+		var startDate = $('#startDate').val();
+		var endDate = $('#endDate').val();
+
+		if(startDate && endDate) {
+			fetchReport('xlsx', startDate, endDate);
+		} else {
+			iziToast.warning({message: 'Please fill both Start Date and End Date fields.' });
+
+		}
+	});
+
+	$('#pdfReport').click(function(event) {
+		event.preventDefault();
+
+		var startDate = $('#startDate').val();
+		var endDate = $('#endDate').val();
+
+		if(startDate && endDate) {
+			fetchReport('pdf', startDate, endDate);
+		} else {
+			iziToast.warning({message: 'Please fill both Start Date and End Date fields.' });
+		}
+	});
+
+	function fetchReport(format, startDate, endDate) {
+
+		iziToast.settings({
+			function(instance, toast) {
+				instance.hide({
+					transitionOut: 'fadeOutUp'
+				})}
+		});
+		const url = '/senior/report/' + format + '/' + startDate + '/' + endDate;
+
+		fetch(url, {
+			method: 'GET',
+			headers: {
+				'Accept': 'application/pdf, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+			}
+		})
+		.then(response => {
+			if (!response.ok) {
+				throw new Error('Network response was not ok');
+			}
+
+			// Extract filename from content-disposition header
+			const contentDisposition = response.headers.get('Content-Disposition');
+			let filename = contentDisposition.split('filename=')[1];
+
+			return response.blob().then(blob => ({ blob, filename }));
+		})
+		.then(({ blob, filename }) => {
+			const url = window.URL.createObjectURL(blob);
+			const a = document.createElement('a');
+			a.style.display = 'none';
+			a.href = url;
+			a.download = filename;
+			document.body.appendChild(a);
+			a.click();
+			window.URL.revokeObjectURL(url);
+		})
+		.catch(error => {
+			iziToast.error({message: 'This Months is no candidates.' });
+
+			console.error('Fetch error:', error);
+		});
+	}
+
+	// Clear error message when user inputs a date
+	$('#startDate, #endDate').on('input', function() {
+		$("#error").text("");
+	});
+
+	// Hide error message when user starts typing again
+	$('#month').on('input', function() {
+		$('#error').text('');
+	});
+
+	function pdfForm() {
+		let format = "pdf";  // or "xlsx"
+		var selectedValue = $('#reportStatus').val();
+
+		iziToast.settings({
+			function(instance, toast) {
+				instance.hide({
+					transitionOut: 'fadeOutUp'
+				})}
+		});
+		// Construct the URL
+		var url = '/senior/reports/'+format+'/'+selectedValue;
+
+		// Make the fetch call
+		fetch(url, {
+		    method: 'GET',
+		    headers: {
+		        'Accept': 'application/pdf, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+		    }
+		})
+		.then(response => {
+		    if (!response.ok) {
+		        throw new Error('Network response was not ok');
+		    }
+
+		    // Extract filename from content-disposition header
+		    const contentDisposition = response.headers.get('Content-Disposition');
+		    let filename = contentDisposition.split('filename=')[1];
+
+		    // If the report is a PDF, handle it this way
+		    if (filename.endsWith('.pdf')) {
+		        return response.blob().then(blob => ({ blob, filename }));
+		    }
+		    // If the report is an XLSX, handle it this way
+		    else if (filename.endsWith('.xlsx')) {
+		        return response.blob().then(blob => ({ blob, filename }));
+		    }
+		})
+		.then(({ blob, filename }) => {
+		    const url = window.URL.createObjectURL(blob);
+		    const a = document.createElement('a');
+		    a.style.display = 'none';
+		    a.href = url;
+		    a.download = filename;
+		    document.body.appendChild(a);
+		    a.click();
+		    window.URL.revokeObjectURL(url);
+		})
+		.catch(error => {
+			iziToast.error({message: 'This stage is no candidates.' });
+		    console.error('Fetch error:', error);
+		});
+	}
+
+	function xlsxForm() {
+		let format = "xlsx";
+		var selectedValue = $('#reportStatus').val();
+
+		iziToast.settings({
+			function(instance, toast) {
+				instance.hide({
+					transitionOut: 'fadeOutUp'
+				})}
+		});
+		// Construct the URL
+		var url = '/senior/reports/'+format+'/'+selectedValue;
+
+		// Make the fetch call
+		fetch(url, {
+		    method: 'GET',
+		    headers: {
+		        'Accept': 'application/pdf, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+		    }
+		})
+		.then(response => {
+		    if (!response.ok) {
+		        throw new Error('Network response was not ok');
+		    }
+
+		    // Extract filename from content-disposition header
+		    const contentDisposition = response.headers.get('Content-Disposition');
+		    let filename = contentDisposition.split('filename=')[1];
+
+		    // If the report is a PDF, handle it this way
+		    if (filename.endsWith('.pdf')) {
+		        return response.blob().then(blob => ({ blob, filename }));
+		    }
+		    // If the report is an XLSX, handle it this way
+		    else if (filename.endsWith('.xlsx')) {
+		        return response.blob().then(blob => ({ blob, filename }));
+		    }
+		})
+		.then(({ blob, filename }) => {
+		    const url = window.URL.createObjectURL(blob);
+		    const a = document.createElement('a');
+		    a.style.display = 'none';
+		    a.href = url;
+		    a.download = filename;
+		    document.body.appendChild(a);
+		    a.click();
+		    window.URL.revokeObjectURL(url);
+		})
+		.catch(error => {
+			iziToast.error({message: 'This stage is no candidates.' });
+		    console.error('Fetch error:', error);
+		});
+	}
+
+
+
+</script>
+<div th:replace="side-bar :: scripts"></div>
+<script src="/assets/js/jquery.dataTables.min.js" type="text/javascript"></script>
+<script src="/assets/js/jquery.spring-friendly.js" type="text/javascript"></script>
+<script src="/assets/vendor/simple-datatables/simple-datatables.js"></script>
+</body>
+</html>

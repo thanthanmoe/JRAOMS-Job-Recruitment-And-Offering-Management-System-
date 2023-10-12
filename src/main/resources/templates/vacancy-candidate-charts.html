@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head>
+    <!-- Favicons -->
+    <link rel="shortcut icon" type="icon/image" href="https://acedatasystems.com/wp-content/themes/acedata/shared/images/fav/favicon.ico">
+
+    <div th:replace="side-bar :: head"></div>
+</head>
+
+<body>
+<div th:replace="side-bar :: header"></div>
+<div th:replace="side-bar :: sidebar"></div>
+
+
+<main id="main" class="main">
+	
+    <div class="pagetitle">
+      <h1>Candidate Vacancy Chart</h1>
+     
+    </div><!-- End Page Title -->
+
+    <p></p>
+
+    <section class="section">
+
+      <div class="row">
+
+        <div class="col-lg-12">
+          <div class="card">
+            <div class="card-body" style="height: 600px;color:red;">
+<!--              <h5 class="card-title">Bar Chart</h5>-->
+
+              <!-- Bar Chart -->
+              <canvas id="barChart" style="max-height: 400px;"></canvas>
+              
+<script th:inline="javascript">
+document.addEventListener("DOMContentLoaded", function() {
+    var labels = [];
+    var data = [];
+    function getRandomColor(opacity = 1) {
+        const red = Math.floor(Math.random() * 255);
+        const green = Math.floor(Math.random() * 255);
+        const blue = Math.floor(Math.random() * 255);
+        return `rgba(${red}, ${green}, ${blue}, ${opacity})`;
+    }
+
+    /*<![CDATA[*/
+    var chartData = /*[[${chartData}]]*/ 'default'; // Get data from Thymeleaf
+
+    var backgroundColor = [];
+    for (var i = 0; i < chartData.length; i++) {
+        labels.push(chartData[i].position); // Assuming 'position' is the name of your getter
+        data.push(chartData[i].count); // Assuming 'count' is the name of your getter
+        backgroundColor.push(getRandomColor()); // generate a random color for each data point
+    }
+
+    new Chart(document.querySelector('#barChart'), {
+        type: 'bar',
+
+        data: {
+            labels: labels,
+            datasets: [{
+                label: 'Candidates',
+                data: data,
+                backgroundColor: backgroundColor,
+                borderColor: getRandomColor(),
+                        borderWidth: 1
+                      }]
+                    },
+                    options: {
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            title: {
+                                display: true,
+                                text: 'Candidates'   // This is the label for y-axis
+                            }
+                        },
+                        x: {
+                            title: {
+                                display: true,
+                                text: 'Vacancy Position'   // This is the label for x-axis
+                            }
+                        }
+                    }
+                    }
+                  });
+                });
+              </script>
+              <!-- End Bar CHart -->
+
+            </div>
+          </div>
+        </div>
+
+         <div class="col-lg-12">
+          <div class="card" >
+            <div class="card-body"  style="height: 600px;">
+<!--              <h5 class="card-title">Pie Chart</h5>-->
+
+              <!-- Pie Chart -->
+              <canvas id="pieChart" style="max-height: 500px;"></canvas>
+              
+					<script th:inline="javascript">
+					document.addEventListener("DOMContentLoaded", function() {
+					    var labels = [];
+					    var datas = [];
+
+                        function getRandomColor(opacity = 1) {
+                            const red = Math.floor(Math.random() * 255);
+                            const green = Math.floor(Math.random() * 255);
+                            const blue = Math.floor(Math.random() * 255);
+                            return `rgba(${red}, ${green}, ${blue}, ${opacity})`;
+                        }
+
+
+                        /*<![CDATA[*/
+					    var chartData = /*[[${chartData}]]*/ 'default'; // Get data from Thymeleaf
+					
+					    var backgroundColor = [];
+					    for (var i = 0; i < chartData.length; i++) {
+					        labels.push(chartData[i].position); // Assuming 'position' is the name of your getter
+					        datas.push(chartData[i].count); // Assuming 'count' is the name of your getter
+					        backgroundColor.push(getRandomColor()); // generate a random color for each data point
+					    }
+					  
+					    new Chart(document.querySelector('#pieChart'), {
+					        type: 'pie',
+					        data: {
+					            labels: labels,
+					            datasets: [{
+					                   label: 'Candidates',
+					                data: datas,
+
+					                backgroundColor: backgroundColor,
+					                hoverOffset: 4
+					            }]
+					        }
+					    });
+					});
+					</script>
+
+              <!-- End Pie CHart -->
+
+            </div>
+          </div>
+        </div>
+
+
+      </div>
+    </section>
+    </main>
+<div th:replace="side-bar :: footer"></div>
+<div th:replace="side-bar :: scripts"></div>
+</body>
+</html>

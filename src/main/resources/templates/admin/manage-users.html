@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head>
+    <!-- Favicons -->
+    <link rel="shortcut icon" type="icon/image" href="https://acedatasystems.com/wp-content/themes/acedata/shared/images/fav/favicon.ico">
+
+    <div th:replace="side-bar :: head"></div>
+  <div th:replace="side-bar :: customformanageuser"></div>
+  <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
+  
+</head>
+<style>
+    .userTable th {
+        padding-top: 12px;
+        padding-bottom: 12px;
+        text-align: left;
+        background-color: #B3B6B7;
+        color: black;
+    }
+</style>
+<body>
+<div th:replace="side-bar :: header"></div>
+<div th:replace="side-bar :: sidebar"></div>
+
+
+<main id="main" class="main">
+
+  <div class="pagetitle">
+    <h1>Dashboard</h1>
+    <nav>
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item">Home</li>
+        <li class="breadcrumb-item active">Manage Users</li>
+      </ol>
+    </nav>
+  </div><!-- End Page Title -->
+
+  <section class="section dashboard">
+    <div class="row">
+      <div class="listbody99">
+
+        <!-- ======= Start of the cards list ======= -->
+        <div id="datatable-container">
+            <div class="col-md-6 input-group" style="width:300px;">
+					<span class="input-group-text" id="inputGroup-sizing-sm"><i
+                            class="bi bi-search"></i></span> <input type="text" id="search-input" class="form-control"
+                                                                    aria-label="Sizing example input" placeholder="Search..."
+                                                                    aria-describedby="inputGroup-sizing-sm">
+
+            </div>
+        <!--  <input type="text" id="search-input" placeholder="Search...">-->
+          <br><br>
+          <table id="datatable" class="userTable">
+            <thead>
+            <tr>
+              <th class="sortable" data-column="ID">ID</th>
+              <th class="sortable" data-column="Name">Name</th>
+              <th class="sortable" data-column="Email">Email</th>
+              <th class="sortable" data-column="Department">Department</th>
+              <th class="sortable" data-column="Company">Company</th>
+              <th class="sortable" data-column="Registration Date">Registration Date</th>
+              <th class="sortable" data-column="Status">Status</th>
+              <th class="sortable" data-column="Role">Role</th>
+              <th>Action</th>
+            </tr>
+            </thead>
+            <tbody>
+            <!-- Data rows will be generated dynamically using JavaScript -->
+            <tr th:each="user : ${users}">
+              <td th:text="${user.id}"></td>
+              <td th:text="${user.name}"></td>
+              <td th:text="${user.email}"></td>
+              <td th:text="${user.departmentName}"></td>
+              <td th:text="${user.companyName}"></td>
+              <td th:text="${user.registerDate}"></td>
+              
+              <td>
+             <button class="action">[[${user.enable ? 'Active' : 'Inactive'}]]</button>
+              </td>
+              <td th:text="${user.role}"></td>
+            </tr>
+
+            </tbody>
+          </table>
+          <div id="pagination">
+            <span>Rows per page:</span>
+            <select id="rows-per-page" onchange="changeRowsPerPage()">
+              <option value="5">5</option>
+              <option value="10">10</option>
+              <option value="15">15</option>
+              <option value="20">20</option>
+            </select>
+            <span class="pagination-link" onclick="previousPage()">Previous</span>
+            <!-- Pagination links will be generated dynamically -->
+            <span class="pagination-link" onclick="nextPage()">Next</span>
+          </div>
+        </div>
+     <script th:src="@{/assets/js/index3.js}"></script>
+
+        <!-- ======= End of the cards list ======= -->
+      </div>
+    </div>
+              <!--modal box start-->
+             <div class="modal fade" id="modal" tabindex="-1">
+              <div class="modal-dialog modal-dialog-centered">
+               <div class="modal-content">
+                <div class="confirm">
+                 <h1>Confirm your action</h1>
+                 <p>Are you really  sure that  you want to <strong>inactive</strong> this User?</p>
+                 <button data-bs-dismiss="modal">Cancel</button>
+                <a th:href="@{/}" class="text-decoration-none">Confirm</a>
+                </div>
+               </div>
+              </div>
+             </div>
+             <!-- End Modal-->
+  </section>
+
+</main><!-- End #main -->
+
+<div th:replace="side-bar :: footer"></div>
+<div th:replace="side-bar :: scripts"></div>
+</body>
+</html>

@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head>
+	<!-- Favicons -->
+
+	<link rel="shortcut icon" type="icon/image" href="https://acedatasystems.com/wp-content/themes/acedata/shared/images/fav/favicon.ico">
+
+	<div th:replace="side-bar :: head"></div>
+	<div th:replace="side-bar :: popupCdn"></div>
+
+	<style>
+		.position{
+			margin-top:20px;
+			margin-left:20px;
+		}
+		.statusHistory{
+			line-height:38px;
+			margin-left: auto;
+			margin-right: auto;
+		}
+
+		.flex-item {
+			line-height:38px;
+			margin-top:30px;
+			margin-left:40px;
+			width:80%;
+			flex: 1;
+		}
+		.history {
+			line-height:38px;
+			border-collapse: collapse;
+			margin-left: auto;
+			margin-right: auto;
+
+		}
+
+
+		.scrollable-content {
+			max-width: 520px;
+			max-height: 90px;  /* adjust as needed */
+			overflow-y: auto;
+			word-wrap: break-word;
+		}
+		.status{
+			line-height:38px;
+			margin-top:5px;
+			margin-left:100px;
+			color:#1F6357;
+		}
+		.active {
+			color: #045F5F;
+		}
+		.history th,.statusHistory th{
+			background-color:#D5D6EA;
+			line-height:38px;
+		}
+		.history td{
+			line-height:38px;
+			background-color: #f6f9ff;
+		}
+		.statusHistory td{
+			line-height:38px;
+			background-color: #f6f9ff;
+		}
+		.table-container {
+			display: none;
+			justify-content: center;
+		}
+	</style>
+</head>
+
+<body>
+<div th:replace="side-bar :: header"></div>
+<div th:replace="side-bar :: sidebar"></div>
+
+
+<main id="main" class="main">
+		<input type="hidden" name="candidateId" th:value="${candidatesId}">
+	<div class="row">
+
+		<div class="col-lg-11 m-auto shadow p-3 mb-5 bg-grey rounded">
+			<div style="margin-left: 5px; margin-top:20px;line-height: 2;">
+		<input type="hidden" name="vacancyId" th:value="${vacancyId}">
+				<table class="flex-item"  style="margin-left: 100px">
+					<thead>	<tr  th:each="candidates : ${candidates}">
+
+					<tr>
+						<th>Name</th>
+						<td>[[${candidates.name}]]</td>
+					</tr>
+					<tr>
+						<th>Email</th>
+						<td>[[${candidates.email}]]</td>
+					</tr>
+					<tr>
+						<th>Level</th>
+						<td>[[${candidates.level}]]</td>
+					</tr>
+
+					<tr>
+						<th>Gender</th>
+						<td>[[${candidates.gender}]]</td>
+					</tr>
+					<tr>
+						<th>Salary</th>
+						<td>[[${candidates.salary}]]</td>
+					</tr>
+
+					<tr>
+						<th>Language</th>
+						<td>[[${candidates.language}]]</td>
+					</tr>
+					<tr>
+						<th>Experiences</th>
+						<td>
+							<span th:if="${candidates.experiences == 1}" th:text="${candidates.experiences + ' year'}"></span>
+							<span th:unless="${candidates.experiences == 1}" th:text="${candidates.experiences + ' years'}"></span>
+						</td>
+					</tr>
+					<tr>
+						<th>Technical Skills</th>
+						<td>[[${candidates.technical}]]</td>
+					</tr>
+					<tr>
+						<th>Main Technical</th>
+						<td>[[${candidates.mainTechnical}]]</td>
+					</tr>
+
+					<tr>
+						<th>Apply Position</th>
+						<td>[[${vacancy.position}]]</td>
+					</tr>
+					<tr>
+						<th>Language Skills</th>
+						<td>[[${candidates.language}]]</td>
+					</tr>
+					<tr>
+						<th>Date Of Births</th>
+						<td>[[${candidates.dob}]]</td>
+					</tr>
+					<tr>
+						<th>Phone Number</th>
+						<td>[[${candidates.phone}]]</td>
+					</tr>
+					<tr>
+						<th>Upload Date</th>
+						<td>[[${candidates.date}]]</td>
+					</tr>
+					<tr>
+						<th><br> <button class="btn btn-primary toggle-link inactive" id="toggleButton" onclick="toggleCvFile()"><b>Show CV File</b></button></th>
+						<td></td>
+					</tr>
+
+					</thead>
+
+				</table>
+				<br>
+				<div style="background-color: #f6f9ff;display: none" id="cvFile">
+		
+			 </div>
+
+				<div class="status">
+					<b>
+						<a id="status"  th:if="${history !=null}" class="toggle-link inactive btn btn-primary" onclick="toggleFile()" >
+							<b>Show Status History</b>
+						</a>&nbsp;&nbsp;
+						<a id="interview" th:if="${intHistory !=null}" class="toggle-link inactive btn btn-primary" onclick="toggleTableInterview()">
+							<b>Show Interview History</b>
+						</a>
+					</b>
+				</div>
+
+				<script type="text/javascript">
+					$(document).ready(function () {
+						$(".toggle-link").click(function () {
+							$(this).toggleClass("active");  // Toggle 'active' class for the clicked link
+						});
+					});
+
+				</script>
+				<br>
+				<div class="table-container" id="tableContainerFile"  style="display: none;">
+					<table id="statusTable" class="statusHistory table table-striped table-hover">
+
+						<tr>
+							<th>#</th>
+							<th>Action</th>
+							<th>Action Change Date</th>
+							<th>Updated By</th>
+						</tr>
+						<th:block th:each="candidate : ${candidates}">
+							<tr th:each="statusHistory : ${candidate.statusHistories}">
+								<td class="indexColumn"></td>
+								<td th:text="${statusHistory.action}"></td>
+								<td th:text="${statusHistory.date}"></td>
+								<td th:text="${statusHistory.user.name + ' (' + statusHistory.user.role+')'}"></td>
+							</tr>
+						</th:block>
+					</table>
+				</div>
+				<div class="table-container" id="tableContainerInterview" style="display: none;">
+					<table id="interviewTable" class="statusHistory table table-striped table-hover" >
+						<tr>
+							<th>#</th>
+							<th>Interview Stage</th>
+							<th>Interview Date</th>
+							<th >Interview Type</th>
+							<th>Updated By</th>
+						</tr>
+						<th:block  th:each="candidate :  ${candidates}">
+							<tr th:each="interviewHistory : ${candidate.interviewHistories}">
+								<td class="historyColumn"></td>
+								<td th:text="${interviewHistory.action}"></td>
+								<td th:text="${interviewHistory.date}"></td>
+								<td>
+									<div class="scrollable-content" th:text="${interviewHistory.interviewFormat}"></div>
+								</td>
+
+								<td th:text="${interviewHistory.user.name + ' (' + interviewHistory.user.role+')'}"></td>
+							</tr>
+						</th:block>
+					</table>
+				</div>
+
+			</div>
+		</div>
+
+	</div>
+	<div class="d-flex justify-content-center" th:if="${statusSeeMore}" sec:authorize="hasAnyAuthority('SENIOR','ADMIN')">
+		<div>
+			<button class="btn border-0" th:onclick="'window.location.href=\'/manage/status/' + ${vacancy.id} + '\''">
+				<i class="fa-solid fa-circle-chevron-left fa-3x"></i>
+			</button>
+		</div>
+	</div>
+
+	<div class="d-flex justify-content-center" th:if="${allCandidate}" sec:authorize="hasAnyAuthority('SENIOR','ADMIN')">
+		<a href="/manage/allcandidate" class="btn border-0">
+			<i class="fa-solid fa-circle-chevron-left fa-3x"></i>
+		</a>
+	</div>
+
+	<div class="d-flex justify-content-center" sec:authorize="hasAnyAuthority('INTERVIEWER')">
+		<div>
+			<button class="btn border-0" th:onclick="'window.location.href=\'/interview/status/' + ${vacancy.id} + '\''">
+				<i class="fa-solid fa-circle-chevron-left fa-3x"></i>
+			</button>
+		</div>
+	</div>
+</main>
+
+<div th:replace="side-bar :: footer"></div>
+
+  
+<script th:inline="javascript">
+var candidateIdInput = document.querySelector("input[name='candidateId']");
+var candidateId = candidateIdInput.value;
+	  fetch(`/seeMore/`+candidateId)
+	  .then(response => response.text())
+	  .then(data => {
+		  document.getElementById('cvFile').innerHTML = data;
+	  })
+	  .catch((error) => {
+		  console.error('Error:', error);
+	  });
+
+function toggleCvFile() {
+	var cvFile = document.getElementById("cvFile");
+	var toggleButton = document.getElementById("toggleButton");
+
+	if (cvFile.style.display === "none" || cvFile.style.display === "") {
+		cvFile.style.display = "block";
+		toggleButton.innerHTML = "<b>Hide CV File</b>";
+	} else {
+		cvFile.style.display = "none";
+		toggleButton.innerHTML = "<b>Show CV File</b>";
+	}
+}
+	function toggleTableInterview() {
+		let interviewButton = document.getElementById("interview");
+		  let tableContainer = document.getElementById("tableContainerInterview");
+		  if (tableContainer.style.display === "none") {
+			  tableContainer.style.display = "block";
+			  interviewButton.innerHTML = "<b>Hide Interview History</b>";
+			  let tableInterview = document.getElementById('interviewTable');
+			  let indexColumn = tableInterview.getElementsByClassName('historyColumn');
+			  for(let i = 0; i < indexColumn.length; i++) {
+				  indexColumn[i].textContent = i + 1;
+			  }
+		  } else {
+			  interviewButton.innerHTML = "<b>Show Interview History</b>";
+			  tableContainer.style.display = "none";
+		  }
+	  }
+  
+	function toggleFile() {
+		let statusButton = document.getElementById("status");
+		  let tableContainer = document.getElementById("tableContainerFile");
+		  if (tableContainer.style.display === "none") {
+			  tableContainer.style.display = "block";
+			  statusButton.innerHTML = "<b>Hide Status History</b>";
+			  let tableStatus = document.getElementById('statusTable');
+			  let indexStatus = tableStatus.getElementsByClassName('indexColumn');
+			  for(let i = 0; i < indexStatus.length; i++) {
+				  indexStatus[i].textContent = i + 1;
+			  }
+		  } else {
+			   tableContainer.style.display = "none";
+			  statusButton.innerHTML = "<b>Show Status History</b>";
+		  }
+	  }
+	  </script>
+	
+<div th:replace="side-bar :: scripts"></div>
+</body>
+</html>

@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head>
+  <!-- Favicons -->
+  <link rel="shortcut icon" type="icon/image" href="https://acedatasystems.com/wp-content/themes/acedata/shared/images/fav/favicon.ico">
+
+  <div th:replace="side-bar :: head"></div>
+  <div th:replace="side-bar :: editVacancy"></div>
+  
+  </head>
+<body>
+<div th:replace="side-bar :: header"></div>
+<div th:replace="side-bar :: sidebar"></div>
+
+
+<main id="main" class="main">
+
+
+    <div class="pagetitle">
+      <h1>Reopen Jobs</h1>
+      <nav>
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item">Home</li>
+          <li class="breadcrumb-item active">Reopen Job</li>
+        </ol>
+      </nav>
+    </div><!-- End Page Title -->
+
+    <section class="section dashboard">
+      <div class="body99">
+
+        <!--start of job offer form -->
+        <div class="body99">
+  <div class="card">
+    <div class="card-body">
+      <h5 class="card-title">Reopen Form</h5>
+      <!-- Floating Labels Form -->
+      <form th:action="@{/vacancy/reopen}" class="row g-3" method="post" th:object="${vacancyBean}">
+        <div class="col-md-6">
+          <div class="form-floating">
+            <input type="text" class="form-control" id="floatingName" placeholder="Position" name="positionName" th:field="*{positionName}" readonly="readonly">
+            <label for="floatingName">Position Name</label>
+          </div>
+        </div>
+
+        <div class="col-md-3">
+          <div class="form-floating">
+            <input type="text" class="form-control" id="salary" name="salary" placeholder="-" th:field="*{salary}">
+            <label for="salary">Salary</label>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="form-floating">
+            <input type="number" class="form-control" id="numberOfPost" placeholder="Posts" name="posts" th:field="*{posts}">
+            <label for="numberOfPost">Number of Posts</label>
+          </div>
+        </div>
+
+        <div class="col-md-6">
+          <div class="form-floating">
+            <input type="text" class="form-control" id="wkd" placeholder="-"  readonly style="pointer-events: none; border: none;">
+            <label for="wkd">Choose Working Days</label>
+          </div>
+        </div>
+
+        <div class="col-md-6">
+  <div class="form-check">
+    <input class="form-check-input" type="checkbox" id="mondayCheckbox" value="Mon" name="workingDays" th:checked="*{workingDays.contains('Mon')}">
+    <label class="form-check-label" for="mondayCheckbox">
+      Monday
+    </label>
+  </div>
+  <div class="form-check">
+    <input class="form-check-input" type="checkbox" id="tuesdayCheckbox" value="Tue" name="workingDays" th:checked="*{workingDays.contains('Tue')}">
+    <label class="form-check-label" for="tuesdayCheckbox">
+      Tuesday
+    </label>
+  </div>
+  <div class="form-check">
+    <input class="form-check-input" type="checkbox" id="wednesdayCheckbox" value="Wed" name="workingDays" th:checked="*{workingDays.contains('Wed')}">
+    <label class="form-check-label" for="wednesdayCheckbox">
+      Wednesday
+    </label>
+  </div>
+  <div class="form-check">
+    <input class="form-check-input" type="checkbox" id="thursdayCheckbox" value="Thu" name="workingDays" th:checked="*{workingDays.contains('Thu')}">
+    <label class="form-check-label" for="thursdayCheckbox">
+      Thursday
+    </label>
+  </div>
+  <div class="form-check">
+    <input class="form-check-input" type="checkbox" id="fridayCheckbox" value="Fri" name="workingDays" th:checked="*{workingDays.contains('Fri')}">
+    <label class="form-check-label" for="fridayCheckbox">
+      Friday
+    </label>
+  </div>
+  <div class="form-check">
+    <input class="form-check-input" type="checkbox" id="saturdayCheckbox" value="Sat" name="workingDays" th:checked="*{workingDays.contains('Sat')}">
+    <label class="form-check-label" for="saturdayCheckbox">
+      Saturday
+    </label>
+  </div>
+  <div class="form-check">
+    <input class="form-check-input" type="checkbox" id="sundayCheckbox" value="Sun" name="workingDays" th:checked="*{workingDays.contains('Sun')}">
+    <label class="form-check-label" for="sundayCheckbox">
+      Sunday
+    </label>
+  </div>
+</div>
+
+      <div class="col-md-6">
+          <div class="form-floating">
+            <input type="text" class="form-control" id="wkh" placeholder="-"  readonly style="pointer-events: none; border: none;">
+            <label for="wkh">Choose Working Hours</label>
+          </div>
+        </div>
+      <div class="col-md-3">
+        <div class="form-floating">
+          <input type="time" class="form-control" id="workFrom"   name="workingHourFrom" th:field="*{workingHourFrom}">
+          <label for="workFrom">From</label>
+        </div>
+      </div>
+
+      <div class="col-md-3">
+        <div class="form-floating">
+          <input type="time" class="form-control" id="workTo"  name="workingHourTo" th:field="*{workingHourTo}">
+          <label for="workTo">To</label>
+        </div>
+      </div>
+
+
+        <div class="col-md-6">
+          <div class="form-floating">
+            <input type="text" class="form-control" id="jobtype" placeholder="-" readonly style="pointer-events: none; border: none;">
+            <label for="jobtype">Choose Job Types</label>
+          </div>
+        </div>
+
+
+
+<div class="col-md-6">
+  <div class="form-floating">
+    <div class="form-check">
+      <input class="form-check-input" type="radio" name="jobType" id="fullTime" value="Fulltime" th:checked="*{jobType} == Fulltime">
+      <label class="form-check-label" for="fullTime">
+        Full Time
+      </label>
+    </div>
+    <div class="form-check">
+      <input class="form-check-input" type="radio" name="jobType" id="partTime" value="Parttime" th:checked="*{jobType} == Parttime">
+      <label class="form-check-label" for="partTime">
+        Part Time
+      </label>
+    </div>
+    <div class="form-check">
+      <input class="form-check-input" type="radio" name="jobType" id="workFrom" value="Workfromhome" th:checked="*{jobType} == Workfromhome">
+      <label class="form-check-label" for="workFrom">
+        Work From Home
+      </label>
+    </div>
+  </div>
+</div>
+        <div class="col-md-6">
+          <div class="form-floating">
+            <input type="text" class="form-control" placeholder="-" readonly
+                   style="pointer-events: none; border: none;">
+            <label for="department">Choose Department</label>
+          </div>
+        </div>
+
+       <div class="col-md-6">
+        <div class="form-floating">
+          <select class="form-select " id="department" aria-label="Job Location" name="departmentId" >
+            <option th:value="*{departmentId}"  selected >[[*{departmentName}]]</option>
+            <!-- Add more location options as needed -->
+          </select>
+          <label for="floatingJobLocation">Department</label>
+        </div>
+       </div>
+
+        <div class="col-12">
+          <div class="form-floating">
+            <textarea class="form-control"   id="description" style="height: 100px;" name="description" placeholder="-" th:field="*{description}"></textarea>
+            <label for="description">Job Description</label>
+          </div>
+        </div>
+
+        <div class="col-12">
+          <p>Job Responsibilities</p>
+          <div class="form-floating" id="respo">
+            <textarea class="form-control"   id="responsibility" style="height: 100px;" name="responsibilities" placeholder="-" th:field="*{responsibilities}"></textarea>
+          <!-- <label for="responsibility">Job Responsibilities</label>  -->
+          </div>
+        </div>
+
+        <div class="col-12">
+          <p>Job Requirements</p>
+          <div class="form-floating" id="requ">
+            <textarea class="form-control" id="requirement" style="height: 100px;" name="requirements" placeholder="-" th:field="*{requirements}"></textarea>
+           <!--  <label for="requirement">Job Requirements</label> -->
+          </div>
+        </div>
+
+        <div class="col-12">
+          <p>Preference</p>
+          <div class="form-floating" id="prefer">
+            <textarea class="form-control"   id="preference" style="height: 100px;" name="preference" placeholder="-" th:field="*{preference}"></textarea>
+            <!-- <label for="preference">Preference</label>   -->
+          </div>
+        </div>
+
+        <hr>
+        <input type="hidden" th:field="*{vacancyId}" name="vacancyId"/>
+        <div class="text-center">
+          <button type="submit" class="btn btn-primary rounded-4">ReOpen</button>
+          <a th:href="@{/expiredvacancies}" class="btn btn-secondary rounded-4">Back</a>
+        </div>
+      </form><!-- End floating Labels Form -->
+
+    </div>
+  </div>
+</div>
+
+
+    </section>
+
+  </main><!-- End #main -->
+
+<div th:replace="side-bar :: footer"></div>
+<div th:replace="side-bar :: scripts"></div>
+</body>
+</html>
